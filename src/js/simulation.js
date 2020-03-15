@@ -137,7 +137,7 @@
         start();
     }
 
-    function refresh() {
+    function restart() {
         clear();
 
         start();
@@ -156,7 +156,7 @@
     /* Save these functions as global */
     window.Simulation = {
         init: init,
-        refresh: refresh,
+        restart: restart,
         clear: clear
     };
 

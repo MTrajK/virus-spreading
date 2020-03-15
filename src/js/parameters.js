@@ -16,9 +16,9 @@
         // end simulation
         window.Simulation.clear();
     });
-    document.getElementById('refresh').addEventListener('click', function(){
-        // refresh simulation
-        window.Simulation.refresh();
+    document.getElementById('restart').addEventListener('click', function(){
+        // restart simulation
+        window.Simulation.restart();
     });
 
 }());
