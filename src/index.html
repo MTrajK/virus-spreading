@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Virus Spreading</title>
+
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+
+</head>
+
+<body>
+
+    <div id="simulation">
+        <div id="graph-dimensions">
+            <canvas id="graph-canvas"></canvas>
+        </div>
+
+        <div id="dimensions">
+            <canvas id="canvas"></canvas>
+        </div>
+
+        <input type="button" id="adjust" value="Adjust parameters"/>
+        <input type="button" id="refresh" value="Refresh simulation"/>
+    </div>
+
+
+    <div id="parameters">
+        <h2>Virus Spreading Simulation</h2></br>
+
+        <h3>Population:</h3>
+        <h3>Sick population:</h3>
+        <h3>Social distancing:</h3>
+        <h3>Infection rate:</h3>
+        <h3>Death rate:</h3>
+
+        <input type="button" id="start" value="Start simulation"/>
+    </div>
+
+    <script src="js/vector2d.js"></script>
+    <script src="js/states.js"></script>
+    <script src="js/sector.js"></script>
+    <script src="js/ball.js"></script>
+    <script src="js/graph.js"></script>
+    <script src="js/simulation.js"></script>
+    <script src="js/parameters.js"></script>
+
+</body>
+
+</html>

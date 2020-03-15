@@ -1,0 +1,74 @@
+@media only screen and (max-width: 480px) {
+    #graph-dimensions {
+        margin: 50px auto 0;
+        width: 150px;
+        height: 15px;
+    }
+
+    #dimensions {
+        margin: 20px auto 0;
+        width: 200px;
+        height: 133px;
+    }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 630px) {
+    #graph-dimensions {
+        margin: 50px auto 0;
+        width: 350px;
+        height: 35px;
+    }
+
+    #dimensions {
+        margin: 20px auto 0;
+        width: 400px;
+        height: 266px;
+    }
+}
+
+@media only screen and (min-width: 631px) and (max-width: 1500px) {
+    #graph-dimensions {
+        margin: 75px auto 0;
+        width: 500px;
+        height: 50px;
+    }
+
+    #dimensions {
+        margin: 25px auto 0;
+        width: 600px;
+        height: 399px;
+    }
+}
+
+@media only screen and (min-width: 1501px) {
+    #graph-dimensions {
+        margin: 100px auto 0;
+        width: 750px;
+        height: 75px;
+    }
+
+    #dimensions {
+        margin: 30px auto 0;
+        width: 900px;
+        height: 600px;
+    }
+}
+
+#simulation {
+    display: none;
+}
+
+#parameters, #simulation {
+    text-align: center;
+}
+
+#parameters {
+    margin-top: 100px;
+}
+
+#start, #adjust, #refresh {
+    font-size: 18px;
+    padding: 5px 10px;
+    font-weight: bold;
+    margin-top: 50px;
+}
