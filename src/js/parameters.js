@@ -8,7 +8,7 @@
         parameters.style.display = 'none';
         simulation.style.display = 'block';
         // start simulation
-        window.Simulation.init('canvas', 'dimensions');
+        window.Simulation.init('canvas', 'dimensions', 100, 1, 0.5, 1, 0.05);
     });
     document.getElementById('adjust').addEventListener('click', function(){
         parameters.style.display = 'block';

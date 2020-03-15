@@ -15,7 +15,7 @@
 
     function Sick() {
         this.color = '#BB641D';
-        var from = 5 * 60;
+        var from = 6 * 60;
         var to = 8 * 60;
         this.left = parseInt(from + Math.random() * (to - from));
     }

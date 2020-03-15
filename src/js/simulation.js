@@ -13,6 +13,7 @@
     };
     var ballProperties = {
         radius: 0.8, // local units
+        speed: 0.2,
         startAngle: 0,
         endAngle: 2 * Math.PI
     };
@@ -20,7 +21,7 @@
     /******************************************************************************************
     ** PROPERTIES USED FOR COMUNICATION BETWEEN HELPERS, EVENTS, UPDATE AND PUBLIC FUNCTIONS **
     *******************************************************************************************/
-    var updateInterval, canvas, context, canvasDimensions, balls, totalFrames;
+    var updateInterval, canvas, context, canvasDimensions, balls, totalFrames, simulationParameters;
 
     /************
     ** DRAWING **
@@ -59,20 +60,21 @@
         balls = [];
         totalFrames = 0;
 
-        var healthy = 100;
-        var sick = 1;
+        // init static properties for ball class
+        Ball.adjustStaticProperties(ballProperties.radius, ballProperties.speed, localDimensions,
+            simulationParameters.infectionRate, simulationParameters.deathRate);
 
         // create balls
-        for (var i=0; i<healthy; i++)
+        for (var i=0; i<simulationParameters.totalPopulation - simulationParameters.sickPopulation; i++)
             balls.push(new Ball(new States.Healthy()));
-        for (var i=0; i<sick; i++)
+        for (var i=0; i<simulationParameters.sickPopulation; i++)
             balls.push(new Ball(new States.Sick()));
 
         // set interval
         updateInterval = setInterval(update, intervalMs);
 
         // init graph
-        Graph.init(simulationFrames, 101);
+        Graph.init(simulationFrames, simulationParameters.totalPopulation);
     }
 
     function stop() {
@@ -128,7 +130,16 @@
     /*********************
     ** PUBLIC FUNCTIONS **
     **********************/
-    function init(canvasId, dimensionsId) {
+    function init(canvasId, dimensionsId, totalPopulation, sickPopulation,
+        socialDistancingPopulation, infectionRate, deathRate) {
+        simulationParameters = {
+            'totalPopulation': totalPopulation,
+            'sickPopulation': sickPopulation,
+            'socialDistancingPopulation': socialDistancingPopulation,
+            'infectionRate': infectionRate,
+            'deathRate': deathRate
+        };
+
         // init parameters
         canvas =  document.getElementById(canvasId);
         context = canvas.getContext('2d');
