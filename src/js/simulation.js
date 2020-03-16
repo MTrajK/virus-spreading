@@ -70,11 +70,11 @@
         for (var i=0; i<simulationParameters.sickPopulation; i++)
             balls.push(new Ball(new States.Sick()));
 
-        // set interval
-        updateInterval = setInterval(update, intervalMs);
-
         // init graph
         Graph.init(simulationFrames, simulationParameters.totalPopulation);
+
+        // set interval
+        updateInterval = setInterval(update, intervalMs);
     }
 
     function stop() {
@@ -100,7 +100,7 @@
             for (var j=i+1; j<balls.length; j++)
                 balls[i].collision(balls[j]);
 
-        var graphData = {'sick':0, 'healthy':0, 'recovered':0};
+        var graphData = {'sick':0, 'healthy':0, 'recovered':0, 'dead':0};
 
         for (var i=0; i<balls.length; i++) {
             // update ball position & velocity
@@ -116,6 +116,8 @@
                 graphData['healthy']++;
             else if (balls[i].state instanceof States.Recovered)
                 graphData['recovered']++;
+            else
+                graphData['dead']++;
         }
 
         // update graph

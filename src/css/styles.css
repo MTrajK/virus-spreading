@@ -1,6 +1,9 @@
 @media only screen and (max-width: 480px) {
+    #graph {
+        margin: 35px auto 0;
+    }
+
     #graph-dimensions {
-        margin: 50px auto 0;
         width: 150px;
         height: 15px;
     }
@@ -13,8 +16,11 @@
 }
 
 @media only screen and (min-width: 481px) and (max-width: 630px) {
+    #graph {
+        margin: 35px auto 0;
+    }
+
     #graph-dimensions {
-        margin: 50px auto 0;
         width: 350px;
         height: 35px;
     }
@@ -27,8 +33,11 @@
 }
 
 @media only screen and (min-width: 631px) and (max-width: 1500px) {
+    #graph {
+        margin: 50px auto 0;
+    }
+
     #graph-dimensions {
-        margin: 75px auto 0;
         width: 500px;
         height: 50px;
     }
@@ -41,8 +50,11 @@
 }
 
 @media only screen and (min-width: 1501px) {
+    #graph {
+        margin: 75px auto 0;
+    }
+
     #graph-dimensions {
-        margin: 100px auto 0;
         width: 750px;
         height: 75px;
     }
@@ -71,4 +83,41 @@
     padding: 5px 10px;
     font-weight: bold;
     margin-top: 50px;
+}
+
+#graph-dimensions {
+    display: inline-block;
+}
+
+#graph-stats {
+    margin-bottom: 5px;
+}
+
+#graph-stats > span {
+    padding: 0px 5px;
+}
+
+.right-border {
+    border-right: gray 2px solid;
+}
+
+.number {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#healthy-number {
+    color: #AAC6CA;
+}
+
+#sick-number {
+    color: #BB641D;
+}
+
+#recovered-number {
+    color: #CB8AC0;
+}
+
+#dead-number {
+    color: #000000;
 }

@@ -12,8 +12,17 @@
 <body>
 
     <div id="simulation">
-        <div id="graph-dimensions">
-            <canvas id="graph-canvas"></canvas>
+        <div id="graph">
+            <div id="graph-stats">
+                <span class="right-border">Healthy <span id="healthy-number" class="number">12</span></span>
+                <span class="right-border">Sick <span id="sick-number" class="number">12</span></span>
+                <span class="right-border">Recovered <span id="recovered-number" class="number">12</span></span>
+                <span>Dead <span id="dead-number" class="number">12</span></span>
+            </div>
+
+            <div id="graph-dimensions">
+                <canvas id="graph-canvas"></canvas>
+            </div>
         </div>
 
         <div id="dimensions">

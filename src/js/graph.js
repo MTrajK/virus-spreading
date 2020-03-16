@@ -7,7 +7,7 @@
     };
 
     var sick, healthy, recovered, canvas, context, canvasDimensions,
-        currentStep, step, maxValue;
+        currentStep, step, maxValue, healthyNumber, sickNumber, recoveredNumber, deadNumber;
 
     function getCanvasDimensions() {
         return {
@@ -32,14 +32,22 @@
         context = canvas.getContext('2d');
         canvasDimensions = document.getElementById('graph-dimensions');
 
+        healthyNumber = document.getElementById('healthy-number');
+        sickNumber = document.getElementById('sick-number');
+        recoveredNumber = document.getElementById('recovered-number');
+        deadNumber = document.getElementById('dead-number');
+
         context.fillStyle = '#eee';
         context.fillRect(0, 0, dimensions.width, dimensions.height);
     }
 
     function update(data) {
+        changeNumbers(data);
+
         var sickValue = maxValue - data['sick'];
         var healthyValue = sickValue - data['healthy'];
         var recoveredValue = healthyValue - data['recovered'];
+
         sick.push(sickValue / maxValue);
         healthy.push(healthyValue / maxValue);
         recovered.push(recoveredValue / maxValue);
@@ -65,6 +73,13 @@
         drawLine(sick, '#BB641D', dimensions);
 
         currentStep += step;
+    }
+
+    function changeNumbers(data) {
+        healthyNumber.innerHTML = data['healthy'];
+        sickNumber.innerHTML = data['sick'];
+        recoveredNumber.innerHTML = data['recovered'];
+        deadNumber.innerHTML = data['dead'];
     }
 
     function drawLine(data, color, dimensions) {
