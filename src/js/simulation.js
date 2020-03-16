@@ -7,6 +7,7 @@
     var fps = 60; // Note: if you change this, you'll need to addapt gravity and resistance logic in ball.js
     var intervalMs = 1000 / fps;
     var simulationFrames = fps * 30;
+    var borderWidth = 1;
     var localDimensions = {
         width: 100, // 1 localDimensions.width is 1 local unit
         height: 100 * (2/3) // the canvas ratio is always 3:2
@@ -21,11 +22,39 @@
     /******************************************************************************************
     ** PROPERTIES USED FOR COMUNICATION BETWEEN HELPERS, EVENTS, UPDATE AND PUBLIC FUNCTIONS **
     *******************************************************************************************/
-    var updateInterval, canvas, context, canvasDimensions, balls, totalFrames, simulationParameters;
+    var updateInterval, canvas, context, canvasDimensions, balls, totalFrames, simulationParameters, borders, simulationEnd;
 
     /************
     ** DRAWING **
     *************/
+    function drawSectorBorder(border, dimensions) {
+        /*
+        if (border.closed)
+            context.fillStyle = '#000000';
+        else
+            context.fillStyle = '#eeeeee';
+
+        context.fillRect((border.position - borderWidth/2) * dimensions.scaleRatio, 0, (border.position + borderWidth/2) * dimensions.scaleRatio, dimensions.height);
+        */
+
+        if (border.closed)
+            context.strokeStyle = '#000000';
+        else
+            context.strokeStyle = '#eeeeee';
+
+        context.beginPath();
+        context.moveTo(border.leftPosition * dimensions.scaleRatio, 0);
+        context.lineTo(border.leftPosition * dimensions.scaleRatio, dimensions.height);
+        context.closePath();
+        context.stroke();
+
+        context.beginPath();
+        context.moveTo(border.rightPosition * dimensions.scaleRatio, 0);
+        context.lineTo(border.rightPosition * dimensions.scaleRatio, dimensions.height);
+        context.closePath();
+        context.stroke();
+    }
+
     function drawCanvasBorder(dimensions) {
         context.strokeStyle = '#000000';
         context.strokeRect(0, 0, dimensions.width, dimensions.height);
@@ -58,6 +87,7 @@
 
     function start() {
         balls = [];
+        borders = [];
         totalFrames = 0;
 
         // init static properties for ball class
@@ -65,10 +95,20 @@
             simulationParameters.infectionRate, simulationParameters.deathRate);
 
         // create balls
-        for (var i=0; i<simulationParameters.totalPopulation - simulationParameters.sickPopulation; i++)
+        for (var i=0; i<simulationParameters.totalPopulation; i++)
             balls.push(new Ball(new States.Healthy()));
         for (var i=0; i<simulationParameters.sickPopulation; i++)
-            balls.push(new Ball(new States.Sick()));
+            balls[i].state = new States.Sick();
+
+        for (var i=0; i<simulationParameters.totalPopulation; i++)
+            if (Math.random() < simulationParameters.socialDistancingRate) {
+                balls[i].state.socialDistancing = true;
+                balls[i].velocity = Vector2D.zero();
+            }
+
+        // create borders
+        borders.push(new Border(localDimensions.width/3, borderWidth, false));
+        borders.push(new Border(2*localDimensions.width/3, borderWidth, false));
 
         // init graph
         Graph.init(simulationFrames, simulationParameters.totalPopulation);
@@ -92,19 +132,28 @@
         canvas.width = dimensions.width;
         canvas.height = dimensions.height;
 
+        // draw sector borders
+        for (var i=0; i<borders.length; i++)
+            drawSectorBorder(borders[i], dimensions);
+
         // draw canvas border
         drawCanvasBorder(dimensions);
 
         // check collisions and update state, positions & velocities
         for (var i=0; i<balls.length; i++)
             for (var j=i+1; j<balls.length; j++)
-                balls[i].collision(balls[j]);
+                balls[i].ballsCollision(balls[j]);
 
         var graphData = {'sick':0, 'healthy':0, 'recovered':0, 'dead':0};
-
         for (var i=0; i<balls.length; i++) {
             // update ball position & velocity
             balls[i].move();
+
+            // check canvas borders collision
+            balls[i].canvasCollision();
+
+            // check sector borders collision
+            balls[i].sectorCollision(borders);
 
             // draw updated balls
             drawBall(balls[i], dimensions.scaleRatio);
@@ -125,27 +174,31 @@
 
         // stop simulation if needed
         totalFrames++;
-        if (totalFrames == simulationFrames)
+        if (totalFrames == simulationFrames) {
             stop();
+            simulationEnd();
+        }
     }
 
     /*********************
     ** PUBLIC FUNCTIONS **
     **********************/
-    function init(canvasId, dimensionsId, totalPopulation, sickPopulation,
-        socialDistancingPopulation, infectionRate, deathRate) {
-        simulationParameters = {
-            'totalPopulation': totalPopulation,
-            'sickPopulation': sickPopulation,
-            'socialDistancingPopulation': socialDistancingPopulation,
-            'infectionRate': infectionRate,
-            'deathRate': deathRate
-        };
-
+    function init(canvasId, dimensionsId, simulationEndFunc, totalPopulation, sickPopulation,
+        socialDistancingRate, infectionRate, deathRate) {
         // init parameters
         canvas =  document.getElementById(canvasId);
         context = canvas.getContext('2d');
         canvasDimensions = document.getElementById(dimensionsId);
+
+        simulationEnd = simulationEndFunc;
+
+        simulationParameters = {
+            'totalPopulation': totalPopulation,
+            'sickPopulation': sickPopulation,
+            'socialDistancingRate': socialDistancingRate,
+            'infectionRate': infectionRate,
+            'deathRate': deathRate
+        };
 
         start();
     }
@@ -166,11 +219,17 @@
         canvas.width = canvas.height = 0;
     }
 
+    function border(num) {
+        borders[num].closed = !borders[num].closed;
+        return borders[num].closed;
+    }
+
     /* Save these functions as global */
     window.Simulation = {
         init: init,
         restart: restart,
-        clear: clear
+        clear: clear,
+        border: border
     };
 
 }());

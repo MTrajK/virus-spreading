@@ -19,6 +19,24 @@
         }
     }
 
+    function changeNumbers(data) {
+        healthyNumber.innerHTML = data['healthy'];
+        sickNumber.innerHTML = data['sick'];
+        recoveredNumber.innerHTML = data['recovered'];
+        deadNumber.innerHTML = data['dead'];
+    }
+
+    function drawLine(data, color, dimensions) {
+        context.fillStyle = color;
+        context.beginPath();
+        context.moveTo(0, dimensions.height);
+        for (var i=0; i<sick.length; i++)
+            context.lineTo(i * step * dimensions.scaleWidth, data[i] * dimensions.height);
+        context.lineTo(currentStep * dimensions.scaleWidth, dimensions.height);
+        context.closePath();
+        context.fill();
+    }
+
     function init(totalSteps, value) {
         sick = [];
         healthy = [];
@@ -42,8 +60,6 @@
     }
 
     function update(data) {
-        changeNumbers(data);
-
         var sickValue = maxValue - data['sick'];
         var healthyValue = sickValue - data['healthy'];
         var recoveredValue = healthyValue - data['recovered'];
@@ -51,6 +67,8 @@
         sick.push(sickValue / maxValue);
         healthy.push(healthyValue / maxValue);
         recovered.push(recoveredValue / maxValue);
+
+        changeNumbers(data);
 
         var dimensions = getCanvasDimensions();
         canvas.width = dimensions.width;
@@ -73,24 +91,6 @@
         drawLine(sick, '#BB641D', dimensions);
 
         currentStep += step;
-    }
-
-    function changeNumbers(data) {
-        healthyNumber.innerHTML = data['healthy'];
-        sickNumber.innerHTML = data['sick'];
-        recoveredNumber.innerHTML = data['recovered'];
-        deadNumber.innerHTML = data['dead'];
-    }
-
-    function drawLine(data, color, dimensions) {
-        context.fillStyle = color;
-        context.beginPath();
-        context.moveTo(0, dimensions.height);
-        for (var i=0; i<sick.length; i++)
-            context.lineTo(i * step * dimensions.scaleWidth, data[i] * dimensions.height);
-        context.lineTo(currentStep * dimensions.scaleWidth, dimensions.height);
-        context.closePath();
-        context.fill();
     }
 
     function clear() {

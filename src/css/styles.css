@@ -78,7 +78,7 @@
     margin-top: 100px;
 }
 
-#start, #adjust, #restart {
+#start, #adjust, #restart, #border1, #border2 {
     font-size: 18px;
     padding: 5px 10px;
     font-weight: bold;

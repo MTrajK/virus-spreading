@@ -29,26 +29,33 @@
             <canvas id="canvas"></canvas>
         </div>
 
-        <input type="button" id="adjust" value="Adjust parameters"/>
-        <input type="button" id="restart" value="Restart simulation"/>
+        <div id="borders-btns">
+            <input type="button" id="border1" value="Close border 1"/>
+            <input type="button" id="border2" value="Close border 2"/>
+        </div>
+
+        <div id="simulation-end-btns">
+            <input type="button" id="adjust" value="Adjust parameters"/>
+            <input type="button" id="restart" value="Restart simulation"/>
+        </div>
     </div>
 
 
     <div id="parameters">
         <h2>Virus Spreading Simulation</h2></br>
 
-        <h3>Population:</h3>
-        <h3>Sick population:</h3>
-        <h3>Social distancing:</h3>
-        <h3>Infection rate:</h3>
-        <h3>Death rate:</h3>
+        <div><h3>Population (50-150)</h3> <input type="range" id="population-slider" name="population" min="50" max="150" step="1" value="100"></div>
+        <div><h3>Sick population (%)</h3> <input type="range" id="sick-slider" name="sick" min="0" max="1" step="0.005" value="0.01"></div>
+        <div><h3>Social distancing (%)</h3> <input type="range" id="distancing-slider" name="distancing" min="0" max="1" step="0.005" value="0"></div>
+        <div><h3>Infection rate (%)</h3> <input type="range" id="infection-slider" name="infection" min="0" max="1" step="0.005" value="1"></div>
+        <div><h3>Death rate (%)</h3> <input type="range" id="death-slider" name="death" min="0" max="1" step="0.005" value="0.03"></div>
 
         <input type="button" id="start" value="Start simulation"/>
     </div>
 
     <script src="js/vector2d.js"></script>
     <script src="js/states.js"></script>
-    <script src="js/sector.js"></script>
+    <script src="js/border.js"></script>
     <script src="js/ball.js"></script>
     <script src="js/graph.js"></script>
     <script src="js/simulation.js"></script>
