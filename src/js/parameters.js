@@ -65,7 +65,7 @@
 
     /* Attach event listeners */
 
-    btns['start'].addEventListener('click', function(){
+    btns.start.addEventListener('click', function(){
         show(borderBtnsContainer);
         hide(simulationEndBtnsContainer);
 
@@ -76,19 +76,19 @@
 
         // start simulation
         window.Simulation.init('canvas', 'dimensions', simulationEnd,
-            parseInt(sliders['population'][0].value),
-            parseInt(parseInt(sliders['population'][0].value) * parseFloat(sliders['sick'][0].value) / 100),
-            parseFloat(sliders['distancing'][0].value) / 100,
-            parseFloat(sliders['infection'][0].value) / 100,
-            parseFloat(sliders['death'][0].value) / 100);
+            parseInt(sliders.population[0].value),
+            parseInt(parseInt(sliders.population[0].value) * parseFloat(sliders.sick[0].value) / 100),
+            parseInt(parseInt(sliders.population[0].value) * parseFloat(sliders.distancing[0].value) / 100),
+            parseFloat(sliders.infection[0].value) / 100,
+            parseFloat(sliders.death[0].value) / 100);
     });
-    btns['adjust'].addEventListener('click', function(){
+    btns.adjust.addEventListener('click', function(){
         show(parametersContainer);
         hide(simulationContainer);
         // end simulation
         window.Simulation.clear();
     });
-    btns['restart'].addEventListener('click', function(){
+    btns.restart.addEventListener('click', function(){
         show(borderBtnsContainer);
         hide(simulationEndBtnsContainer);
 

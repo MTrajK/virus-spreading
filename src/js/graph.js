@@ -6,7 +6,7 @@
         height: 100 * (1/10) // the canvas ratio is always 10:1
     };
 
-    var sick, healthy, recovered, canvas, context, canvasDimensions, limit,
+    var lastData, sick, healthy, recovered, canvas, context, canvasDimensions, limit,
         currentStep, step, maxValue, healthyNumber, sickNumber, recoveredNumber, deadNumber;
 
     function getCanvasDimensions() {
@@ -15,15 +15,15 @@
             height: canvasDimensions.offsetHeight,
             top: canvasDimensions.offsetTop,
             left: canvasDimensions.offsetLeft,
-            scaleWidth: canvasDimensions.offsetWidth / localDimensions.width
+            scaleWidthRatio: canvasDimensions.offsetWidth / localDimensions.width
         }
     }
 
-    function changeNumbers(data) {
-        healthyNumber.innerHTML = data['healthy'];
-        sickNumber.innerHTML = data['sick'];
-        recoveredNumber.innerHTML = data['recovered'];
-        deadNumber.innerHTML = data['dead'];
+    function changeNumbers() {
+        healthyNumber.innerHTML = lastData.healthy;
+        sickNumber.innerHTML = lastData.sick;
+        recoveredNumber.innerHTML = lastData.recovered;
+        deadNumber.innerHTML = lastData.dead;
     }
 
     function drawRect(color, x, y, width, height) {
@@ -36,8 +36,8 @@
         context.beginPath();
         context.moveTo(0, dimensions.height);
         for (var i=0; i<sick.length; i++)
-            context.lineTo(i * step * dimensions.scaleWidth, data[i] * dimensions.height);
-        context.lineTo(currentStep * dimensions.scaleWidth, dimensions.height);
+            context.lineTo(i * step * dimensions.scaleWidthRatio, data[i] * dimensions.height);
+        context.lineTo(currentStep * dimensions.scaleWidthRatio, dimensions.height);
         context.closePath();
         context.fill();
     }
@@ -51,14 +51,15 @@
         context.stroke();
     }
 
-    function init(totalSteps, value) {
+    function init(totalSteps, value, data) {
+        lastData = data;
         sick = [];
         healthy = [];
         recovered = [];
         maxValue = value;
-        currentStep = 0;
         totalSteps -= 1;
         step = localDimensions.width / totalSteps;
+        currentStep = -step;
         limit = 0.3;
 
         canvas =  document.getElementById('graph-canvas');
@@ -70,29 +71,39 @@
         recoveredNumber = document.getElementById('recovered-number');
         deadNumber = document.getElementById('dead-number');
 
+        changeNumbers();
         drawRect('#eee', 0, 0, dimensions.width, dimensions.height);
     }
 
     function update(data) {
-        var sickValue = maxValue - data['sick'];
-        var healthyValue = sickValue - data['healthy'];
-        var recoveredValue = healthyValue - data['recovered'];
+        lastData = data;
+
+        var sickValue = maxValue - data.sick;
+        var healthyValue = sickValue - data.healthy;
+        var recoveredValue = healthyValue - data.recovered;
 
         sick.push(sickValue / maxValue);
         healthy.push(healthyValue / maxValue);
         recovered.push(recoveredValue / maxValue);
 
-        changeNumbers(data);
+        currentStep += step;
+    }
 
+    function draw() {
+        // update dimensions and clear canvas
+        // the canvas is cleared when a new value is attached to dimensions (no matter if a same value)
         var dimensions = getCanvasDimensions();
         canvas.width = dimensions.width;
         canvas.height = dimensions.height;
 
+        // update numbers
+        changeNumbers();
+
         // draw empty rect
-        drawRect('#eee', currentStep * dimensions.scaleWidth, 0, dimensions.width - currentStep * dimensions.scaleWidth, dimensions.height);
+        drawRect('#eee', currentStep * dimensions.scaleWidthRatio, 0, dimensions.width - currentStep * dimensions.scaleWidthRatio, dimensions.height);
 
         // draw dead line (the whole rectangle)
-        drawRect('#000', 0, 0, currentStep * dimensions.scaleWidth, dimensions.height);
+        drawRect('#000', 0, 0, currentStep * dimensions.scaleWidthRatio, dimensions.height);
 
         // draw recovered line
         drawPolygon(recovered, '#CB8AC0', dimensions);
@@ -104,9 +115,7 @@
         drawPolygon(sick, '#BB641D', dimensions);
 
         // draw limit line
-        drawLine(dimensions, currentStep * dimensions.scaleWidth);
-
-        currentStep += step;
+        drawLine(dimensions, currentStep * dimensions.scaleWidthRatio);
     }
 
     function clear() {
@@ -118,7 +127,8 @@
     window.Graph = {
         init: init,
         update: update,
-        clear: clear
+        clear: clear,
+        draw: draw
     };
 
 }());
