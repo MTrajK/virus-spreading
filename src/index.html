@@ -14,9 +14,9 @@
     <div id="simulation">
         <div id="graph">
             <div id="graph-stats">
-                <span class="right-border">Healthy <span id="healthy-number" class="number">12</span></span>
-                <span class="right-border">Sick <span id="sick-number" class="number">12</span></span>
-                <span class="right-border">Recovered <span id="recovered-number" class="number">12</span></span>
+                <span class="border-on-right">Healthy <span id="healthy-number" class="number">12</span></span>
+                <span class="border-on-right">Sick <span id="sick-number" class="number">12</span></span>
+                <span class="border-on-right">Recovered <span id="recovered-number" class="number">12</span></span>
                 <span>Dead <span id="dead-number" class="number">12</span></span>
             </div>
 
@@ -30,8 +30,8 @@
         </div>
 
         <div id="borders-btns">
-            <input type="button" id="border1" value="Close border 1"/>
-            <input type="button" id="border2" value="Close border 2"/>
+            <input type="button" id="left-border" value="Close left border"/>
+            <input type="button" id="right-border" value="Close right border"/>
         </div>
 
         <div id="simulation-end-btns">
@@ -44,11 +44,11 @@
     <div id="parameters">
         <h2>Virus Spreading Simulation</h2></br>
 
-        <div><h3>Population (50-150)</h3> <input type="range" id="population-slider" name="population" min="50" max="150" step="1" value="100"></div>
-        <div><h3>Sick population (%)</h3> <input type="range" id="sick-slider" name="sick" min="0" max="1" step="0.005" value="0.01"></div>
-        <div><h3>Social distancing (%)</h3> <input type="range" id="distancing-slider" name="distancing" min="0" max="1" step="0.005" value="0"></div>
-        <div><h3>Infection rate (%)</h3> <input type="range" id="infection-slider" name="infection" min="0" max="1" step="0.005" value="1"></div>
-        <div><h3>Death rate (%)</h3> <input type="range" id="death-slider" name="death" min="0" max="1" step="0.005" value="0.03"></div>
+        <div><h3>Population: <span id="population-number">100</span></h3> <input type="range" id="population-slider" name="population" min="50" max="200" step="1" value="100"></div>
+        <div><h3>Sick population: <span id="sick-percent">1</span>%</h3> <input type="range" id="sick-slider" name="sick" min="0" max="100" step="1" value="1"></div>
+        <div><h3>Social distancing: <span id="distancing-percent">0</span>%</h3> <input type="range" id="distancing-slider" name="distancing" min="0" max="100" step="1" value="0"></div>
+        <div><h3>Infection rate: <span id="infection-percent">100</span>%</h3> <input type="range" id="infection-slider" name="infection" min="0" max="100" step="1" value="100"></div>
+        <div><h3>Death rate: <span id="death-percent">3</span>%</h3> <input type="range" id="death-slider" name="death" min="0" max="100" step="1" value="3"></div>
 
         <input type="button" id="start" value="Start simulation"/>
     </div>

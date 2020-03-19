@@ -1,70 +1,111 @@
 (function () {
     'use strict';
 
-    var simulation = document.getElementById('simulation');
-    var parameters = document.getElementById('parameters');
+    /* DOM elements */
 
-    var bordersBtns = document.getElementById('borders-btns');
-    var simulationEndBtns = document.getElementById('simulation-end-btns');
-    var border1 = document.getElementById('border1');
-    var border2 = document.getElementById('border2');
+    var simulationContainer = document.getElementById('simulation');
+    var parametersContainer = document.getElementById('parameters');
+    var borderBtnsContainer = document.getElementById('borders-btns');
+    var simulationEndBtnsContainer = document.getElementById('simulation-end-btns');
 
-    var populationSlider = document.getElementById('population-slider');
-    var sickSlider = document.getElementById('sick-slider');
-    var distancingSlider = document.getElementById('distancing-slider');
-    var infectionSlider = document.getElementById('infection-slider');
-    var deathSlider = document.getElementById('death-slider');
+    var btns = {
+        'start': document.getElementById('start'),
+        'adjust': document.getElementById('adjust'),
+        'restart': document.getElementById('restart')
+    };
+    var borderBtns = {
+        'left': document.getElementById('left-border'),
+        'right': document.getElementById('right-border')
+    };
+    var sliders = {
+        'population': [
+            document.getElementById('population-slider'),
+            document.getElementById('population-number')
+        ],
+        'sick': [
+            document.getElementById('sick-slider'),
+            document.getElementById('sick-percent')
+        ],
+        'distancing': [
+            document.getElementById('distancing-slider'),
+            document.getElementById('distancing-percent')
+        ],
+        'infection': [
+            document.getElementById('infection-slider'),
+            document.getElementById('infection-percent')
+        ],
+        'death': [
+            document.getElementById('death-slider'),
+            document.getElementById('death-percent')
+        ]
+    };
 
+    /* Helper functions */
+
+    function hide(element) {
+        element.style.display = 'none';
+    }
+    function show(element) {
+        element.style.display = 'block';
+    }
     function simulationEnd() {
-        bordersBtns.style.display = 'none';
-        simulationEndBtns.style.display = 'block';
+        hide(borderBtnsContainer);
+        show(simulationEndBtnsContainer);
+    }
+    function resetBorderBtnsText() {
+        Object.keys(borderBtns).forEach(function(key) {
+            borderBtns[key].value = 'Close ' + key + ' border';
+        });
+    }
+    function addSliderEventListener(event, key) {
+        sliders[key][0].addEventListener(event, function () {
+            sliders[key][1].innerHTML = sliders[key][0].value;
+        }, false);
     }
 
-    document.getElementById('start').addEventListener('click', function(){
-        bordersBtns.style.display = 'block';
-        simulationEndBtns.style.display = 'none';
+    /* Attach event listeners */
 
-        parameters.style.display = 'none';
-        simulation.style.display = 'block';
+    btns['start'].addEventListener('click', function(){
+        show(borderBtnsContainer);
+        hide(simulationEndBtnsContainer);
 
-        border1.value = 'Close border 1';
-        border2.value = 'Close border 2';
+        hide(parametersContainer);
+        show(simulationContainer);
+
+        resetBorderBtnsText();
 
         // start simulation
         window.Simulation.init('canvas', 'dimensions', simulationEnd,
-            parseInt(populationSlider.value),
-            parseInt(parseInt(populationSlider.value) * parseFloat(sickSlider.value)),
-            parseFloat(distancingSlider.value),
-            parseFloat(infectionSlider.value),
-            parseFloat(deathSlider.value));
+            parseInt(sliders['population'][0].value),
+            parseInt(parseInt(sliders['population'][0].value) * parseFloat(sliders['sick'][0].value) / 100),
+            parseFloat(sliders['distancing'][0].value) / 100,
+            parseFloat(sliders['infection'][0].value) / 100,
+            parseFloat(sliders['death'][0].value) / 100);
     });
-    document.getElementById('adjust').addEventListener('click', function(){
-        parameters.style.display = 'block';
-        simulation.style.display = 'none';
+    btns['adjust'].addEventListener('click', function(){
+        show(parametersContainer);
+        hide(simulationContainer);
         // end simulation
         window.Simulation.clear();
     });
-    document.getElementById('restart').addEventListener('click', function(){
-        bordersBtns.style.display = 'block';
-        simulationEndBtns.style.display = 'none';
+    btns['restart'].addEventListener('click', function(){
+        show(borderBtnsContainer);
+        hide(simulationEndBtnsContainer);
 
-        border1.value = 'Close border 1';
-        border2.value = 'Close border 2';
+        resetBorderBtnsText();
 
         // restart simulation
         window.Simulation.restart();
     });
-    border1.addEventListener('click', function(){
-        if (window.Simulation.border(0))
-            border1.value = 'Open border 1';
-        else
-            border1.value = 'Close border 1';
+
+    Object.keys(borderBtns).forEach(function(key) {
+        borderBtns[key].addEventListener('click', function(){
+            borderBtns[key].value = (window.Simulation.border(key) ? 'Open' : 'Close') + ' ' + key + ' border';
+        }, false);
     });
-    border2.addEventListener('click', function(){
-        if (window.Simulation.border(1))
-            border2.value = 'Open border 2';
-        else
-            border2.value = 'Close border 2';
+    Object.keys(sliders).forEach(function(key) {
+        addSliderEventListener('change', key);   // for Internet Explorer
+        addSliderEventListener('input', key);    // for the rest browsers
     });
 
 }());

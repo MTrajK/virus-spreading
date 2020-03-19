@@ -219,7 +219,8 @@
         canvas.width = canvas.height = 0;
     }
 
-    function border(num) {
+    function border(side) {
+        var num = (side == 'left') ? 0 : 1;
         borders[num].closed = !borders[num].closed;
         return borders[num].closed;
     }

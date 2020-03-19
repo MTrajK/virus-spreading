@@ -101,7 +101,7 @@
         }
     }
 
-    Ball.prototype.sectorCollision = function(borders) { 
+    Ball.prototype.sectorCollision = function(borders) {
         for (var i=0; i<borders.length; i++)
             if (borders[i].closed) {
                 if (borders[i].leftPosition - Ball.radius <= this.position.X && borders[i].rightPosition + Ball.radius >= this.position.X) {
