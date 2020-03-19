@@ -17,15 +17,16 @@
         endAngle: 2 * Math.PI
     };
 
-    var updateInterval, canvas, context, canvasDimensions, balls, totalFrames, simulationParameters, borders, simulationEnd, resizeTimeout;
+    var simulationCanvas, simulationDimensions, context, simulationStats, simulationEnd, simulationParameters,
+        updateInterval, balls, currentFrame, borders, resizeTimeout;
 
     function getCanvasDimensions() {
         return {
-            width: canvasDimensions.offsetWidth,
-            height: canvasDimensions.offsetHeight,
-            top: canvasDimensions.offsetTop,
-            left: canvasDimensions.offsetLeft,
-            scaleWidthRatio: canvasDimensions.offsetWidth / localDimensions.width
+            width: simulationDimensions.offsetWidth,
+            height: simulationDimensions.offsetHeight,
+            top: simulationDimensions.offsetTop,
+            left: simulationDimensions.offsetLeft,
+            scaleWidthRatio: simulationDimensions.offsetWidth / localDimensions.width
         }
     }
 
@@ -50,7 +51,7 @@
     function start() {
         balls = [];
         borders = [];
-        totalFrames = 0;
+        currentFrame = 0;
         resizeTimeout = undefined;
 
         // create sick and healthy balls
@@ -77,14 +78,8 @@
         borders.push(new Border(localDimensions.width/3, borderWidth, false));
         borders.push(new Border(2*localDimensions.width/3, borderWidth, false));
 
-        // init graph
-        var graphData = {
-            'sick': simulationParameters.sickPopulation,
-            'healthy': simulationParameters.totalPopulation - simulationParameters.sickPopulation,
-            'recovered': 0,
-            'dead': 0
-        };
-        Graph.init(simulationFrames, simulationParameters.totalPopulation, graphData, 0.3);
+        // start chart
+        Chart.start();
 
         // set interval
         updateInterval = setInterval(update, intervalMs);
@@ -143,8 +138,8 @@
         // update dimensions and clear canvas
         // the canvas is cleared when a new value is attached to dimensions (no matter if a same value)
         var dimensions = getCanvasDimensions();
-        canvas.width = dimensions.width;
-        canvas.height = dimensions.height;
+        simulationCanvas.width = dimensions.width;
+        simulationCanvas.height = dimensions.height;
 
         // draw sector borders
         drawSectorBorder(borders[0], dimensions);
@@ -163,8 +158,8 @@
             if (!(balls[i].state instanceof States.Dead))
                 drawBall(balls[i], dimensions.scaleWidthRatio);
 
-        // draw graph
-        Graph.draw();
+        // draw chart
+        Chart.draw();
     }
 
     function update() {
@@ -175,7 +170,7 @@
                     if (!(balls[j].state instanceof States.Dead))
                         balls[i].ballsCollision(balls[j]);
 
-        var graphData = {'sick': 0, 'healthy': 0, 'recovered': 0, 'dead': 0};
+        var statsData = {'sick': 0, 'healthy': 0, 'recovered': 0, 'dead': 0};
         for (var i=0; i<balls.length; i++) {
             // update ball position & velocity
             balls[i].move();
@@ -186,44 +181,51 @@
             // check sector borders collision
             balls[i].sectorCollision(borders);
 
-            // update graph data
+            // count stats
             if (balls[i].state instanceof States.Sick)
-                graphData.sick++;
+                statsData.sick++;
             else if (balls[i].state instanceof States.Healthy)
-                graphData.healthy++;
+                statsData.healthy++;
             else if (balls[i].state instanceof States.Recovered)
-                graphData.recovered++;
+                statsData.recovered++;
             else
-                graphData.dead++;
+                statsData.dead++;
         }
 
-        // update graph
-        Graph.update(graphData);
+        // update stats
+        simulationStats(statsData);
+
+        // update chart
+        Chart.update(statsData);
 
         // draw everything
         draw();
 
         // stop simulation if needed
-        totalFrames++;
-        if (totalFrames == simulationFrames) {
+        currentFrame++;
+        if (currentFrame == simulationFrames) {
             clearInterval(updateInterval);
             window.addEventListener('resize', resizeEventHandler);
             simulationEnd();
         }
     }
 
-    function init(canvasId, dimensionsId, end, parameters) {
+    function init(simulation, chart, stats, end, parameters) {
         // init parameters
-        canvas =  document.getElementById(canvasId);
-        context = canvas.getContext('2d');
-        canvasDimensions = document.getElementById(dimensionsId);
+        simulationCanvas =  simulation.canvas;
+        simulationDimensions = simulation.dimensions;
+        context = simulationCanvas.getContext('2d');
 
+        simulationStats = stats;
         simulationEnd = end;
         simulationParameters = parameters;
 
         // init static properties for ball class
         Ball.adjustStaticProperties(ballProperties.radius, ballProperties.speed, localDimensions,
             simulationParameters.infectionRate, simulationParameters.deathRate);
+
+        // init chart
+        Chart.init(chart, simulationFrames, simulationParameters.totalPopulation, 0.3);
 
         start();
     }
@@ -238,11 +240,11 @@
         clearTimeout(resizeTimeout);
         window.removeEventListener('resize', resizeEventHandler);
 
-        // clear graph
-        Graph.clear();
+        // clear chart
+        Chart.clear();
 
         // clear canvas
-        canvas.width = canvas.height = 0;
+        simulationCanvas.width = simulationCanvas.height = 0;
     }
 
     function border(side) {

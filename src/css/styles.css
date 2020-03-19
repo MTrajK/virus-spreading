@@ -1,14 +1,14 @@
 @media only screen and (max-width: 480px) {
-    #graph {
+    #chart {
         margin: 35px auto 0;
     }
 
-    #graph-dimensions {
+    #chart-dimensions {
         width: 150px;
         height: 15px;
     }
 
-    #dimensions {
+    #simulation-dimensions {
         margin: 20px auto 0;
         width: 200px;
         height: 133px;
@@ -16,16 +16,16 @@
 }
 
 @media only screen and (min-width: 481px) and (max-width: 630px) {
-    #graph {
+    #chart {
         margin: 35px auto 0;
     }
 
-    #graph-dimensions {
+    #chart-dimensions {
         width: 350px;
         height: 35px;
     }
 
-    #dimensions {
+    #simulation-dimensions {
         margin: 20px auto 0;
         width: 400px;
         height: 266px;
@@ -33,16 +33,16 @@
 }
 
 @media only screen and (min-width: 631px) and (max-width: 1500px) {
-    #graph {
+    #chart {
         margin: 50px auto 0;
     }
 
-    #graph-dimensions {
+    #chart-dimensions {
         width: 500px;
         height: 50px;
     }
 
-    #dimensions {
+    #simulation-dimensions {
         margin: 25px auto 0;
         width: 600px;
         height: 399px;
@@ -50,16 +50,16 @@
 }
 
 @media only screen and (min-width: 1501px) {
-    #graph {
+    #chart {
         margin: 75px auto 0;
     }
 
-    #graph-dimensions {
+    #chart-dimensions {
         width: 750px;
         height: 75px;
     }
 
-    #dimensions {
+    #simulation-dimensions {
         margin: 30px auto 0;
         width: 900px;
         height: 600px;
@@ -85,15 +85,15 @@
     margin-top: 50px;
 }
 
-#graph-dimensions {
+#chart-dimensions {
     display: inline-block;
 }
 
-#graph-stats {
+#chart-stats {
     margin-bottom: 5px;
 }
 
-#graph-stats > span {
+#chart-stats > span {
     padding: 0px 5px;
 }
 
