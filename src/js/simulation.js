@@ -230,11 +230,6 @@
         start();
     }
 
-    function restart() {
-        clear();
-        start();
-    }
-
     function clear() {
         // clear resize handler
         clearTimeout(resizeTimeout);
@@ -247,6 +242,11 @@
         simulationCanvas.width = simulationCanvas.height = 0;
     }
 
+    function restart() {
+        clear();
+        start();
+    }
+
     function border(side) {
         var num = (side == 'left') ? 0 : 1;
         borders[num].closed = !borders[num].closed;
@@ -256,8 +256,8 @@
     /* Save these functions as global */
     window.Simulation = {
         init: init,
-        restart: restart,
         clear: clear,
+        restart: restart,
         border: border
     };
 

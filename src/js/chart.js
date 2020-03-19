@@ -53,7 +53,7 @@
     }
 
     function start() {
-        // clean states
+        // clean chart states
         sick = [];
         sickLimit = [];
         healthy = [];
@@ -62,15 +62,18 @@
     }
 
     function update(data) {
+        // save the values as percentages
         var sickValue = maxValue - data.sick;
         var healthyValue = sickValue - data.healthy;
         var recoveredValue = healthyValue - data.recovered;
+        sickValue /= maxValue;
+        healthyValue /= maxValue;
+        recoveredValue /= maxValue;
 
-        // save the values as percentages
-        sick.push(sickValue / maxValue);
-        sickLimit.push(Math.max(sickValue / maxValue, safeLimit));
-        healthy.push(healthyValue / maxValue);
-        recovered.push(recoveredValue / maxValue);
+        sick.push(sickValue);
+        sickLimit.push(Math.max(sickValue, safeLimit));
+        healthy.push(healthyValue);
+        recovered.push(recoveredValue);
     }
 
     function draw() {
