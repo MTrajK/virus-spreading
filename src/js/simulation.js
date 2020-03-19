@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var fps = 60; // Note: if you change this, you'll need to addapt gravity and resistance logic in ball.js
+    var fps = 60; // Note: if you change this, you'll need to addapt ball speed
     var intervalMs = 1000 / fps;
     var simulationSec = 30;
     var simulationFrames = fps * simulationSec;
@@ -30,11 +30,11 @@
     }
 
     function resizeEventHandler() {
-        // this mechanism is to prevent many renders of the same things
+        // this mechanism is here to prevent many drawings of the same things when resizing the browser
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(function() {
             draw();
-        }, 10);
+        }, intervalMs);
     }
 
     function shuffleBalls() {
@@ -61,7 +61,7 @@
         }
         while (ballIdx < simulationParameters.totalPopulation) {
             balls.push(new Ball(new States.Healthy()));
-            ballIdx ++;
+            ballIdx++;
         }
 
         // shuffle balls
@@ -84,7 +84,7 @@
             'recovered': 0,
             'dead': 0
         };
-        Graph.init(simulationFrames, simulationParameters.totalPopulation, graphData);
+        Graph.init(simulationFrames, simulationParameters.totalPopulation, graphData, 0.3);
 
         // set interval
         updateInterval = setInterval(update, intervalMs);
@@ -212,22 +212,14 @@
         }
     }
 
-    function init(canvasId, dimensionsId, simulationEndFunc, totalPopulation, sickPopulation,
-        socialDistancingPopulation, infectionRate, deathRate) {
+    function init(canvasId, dimensionsId, end, parameters) {
         // init parameters
         canvas =  document.getElementById(canvasId);
         context = canvas.getContext('2d');
         canvasDimensions = document.getElementById(dimensionsId);
 
-        simulationEnd = simulationEndFunc;
-
-        simulationParameters = {
-            'totalPopulation': totalPopulation,
-            'sickPopulation': sickPopulation,
-            'socialDistancingPopulation': socialDistancingPopulation,
-            'infectionRate': infectionRate,
-            'deathRate': deathRate
-        };
+        simulationEnd = end;
+        simulationParameters = parameters;
 
         // init static properties for ball class
         Ball.adjustStaticProperties(ballProperties.radius, ballProperties.speed, localDimensions,

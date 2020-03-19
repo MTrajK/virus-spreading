@@ -58,9 +58,9 @@
         });
     }
     function addSliderEventListener(event, key) {
-        sliders[key][0].addEventListener(event, function () {
+        sliders[key][0].addEventListener(event, function() {
             sliders[key][1].innerHTML = sliders[key][0].value;
-        }, false);
+        });
     }
 
     /* Attach event listeners */
@@ -75,12 +75,13 @@
         resetBorderBtnsText();
 
         // start simulation
-        window.Simulation.init('canvas', 'dimensions', simulationEnd,
-            parseInt(sliders.population[0].value),
-            parseInt(parseInt(sliders.population[0].value) * parseFloat(sliders.sick[0].value) / 100),
-            parseInt(parseInt(sliders.population[0].value) * parseFloat(sliders.distancing[0].value) / 100),
-            parseFloat(sliders.infection[0].value) / 100,
-            parseFloat(sliders.death[0].value) / 100);
+        window.Simulation.init('canvas', 'dimensions', simulationEnd, {
+            'totalPopulation': parseInt(sliders.population[0].value),
+            'sickPopulation': parseInt(parseInt(sliders.population[0].value) * parseFloat(sliders.sick[0].value) / 100),
+            'socialDistancingPopulation': parseInt(parseInt(sliders.population[0].value) * parseFloat(sliders.distancing[0].value) / 100),
+            'infectionRate': parseFloat(sliders.infection[0].value) / 100,
+            'deathRate': parseFloat(sliders.death[0].value) / 100
+        });
     });
     btns.adjust.addEventListener('click', function(){
         show(parametersContainer);
@@ -101,7 +102,7 @@
     Object.keys(borderBtns).forEach(function(key) {
         borderBtns[key].addEventListener('click', function(){
             borderBtns[key].value = (window.Simulation.border(key) ? 'Open' : 'Close') + ' ' + key + ' border';
-        }, false);
+        });
     });
     Object.keys(sliders).forEach(function(key) {
         addSliderEventListener('change', key);   // for Internet Explorer
