@@ -7,7 +7,9 @@
     function Ball(state) {
         this.state = state;
         //this.position = Vector2D.random().multVec(new Vector2D(Ball.localDimensions.width - 2 * Ball.radius, Ball.localDimensions.height - 2 * Ball.radius)).add(new Vector2D(Ball.radius, Ball.radius));
-        this.position = Vector2D.random().multVec(new Vector2D(Ball.localDimensions.width, Ball.localDimensions.height));
+        this.position = Vector2D.random();
+        this.position.X *= Ball.localDimensions.width;
+        this.position.Y *= Ball.localDimensions.height;
         this.velocity = Vector2D.random().sub(new Vector2D(0.5, 0.5)).tryNormalize().mult(Ball.speed);
     }
 
@@ -23,6 +25,7 @@
             top: 0 + radius,
             bottom: localDimensions.height - radius,
         };
+        Ball.gap = 0.01; // a small value used to create gaps between balls
     }
 
     Ball.prototype.ballsCollision = function(ball) {
@@ -35,13 +38,13 @@
             if (this.state.socialDistancing) {
                 // solution: r=d−2(d*n)n (https://math.stackexchange.com/questions/13261/how-to-get-a-reflection-vector)
                 positionSub = positionSub.tryNormalize().opposite();
-                ball.position = ball.position.add(positionSub.mult((minDistance - distance) + Vector2D.NEAR_ZERO / 2));
+                ball.position = ball.position.add(positionSub.mult((minDistance - distance) + Ball.gap / 2));
                 ball.velocity = ball.velocity.sub(positionSub.mult(2 * ball.velocity.dot(positionSub)));
             }
             else if (ball.state.socialDistancing) {
                 // solution: r=d−2(d*n)n (https://math.stackexchange.com/questions/13261/how-to-get-a-reflection-vector)
                 positionSub = positionSub.tryNormalize();
-                this.position = this.position.add(positionSub.mult((minDistance - distance) + Vector2D.NEAR_ZERO / 2));
+                this.position = this.position.add(positionSub.mult((minDistance - distance) + Ball.gap / 2));
                 this.velocity = this.velocity.sub(positionSub.mult(2 * this.velocity.dot(positionSub)));
             }
             else {
@@ -59,7 +62,7 @@
                 }
 
                 // move balls outside of collision
-                var diff = (minDistance - distance) / 2 + Vector2D.NEAR_ZERO;
+                var diff = (minDistance - distance) / 2 + Ball.gap;
                 this.position = this.position.add(positionSub.tryNormalize().mult(diff));
                 ball.position = ball.position.add(positionSub.opposite().tryNormalize().mult(diff));
             }
