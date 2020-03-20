@@ -20,71 +20,6 @@
     var simulationCanvas, simulationDimensions, context, simulationStats, simulationEnd, simulationParameters,
         updateInterval, balls, currentFrame, borders, resizeTimeout;
 
-    function getCanvasDimensions() {
-        return {
-            width: simulationDimensions.offsetWidth,
-            height: simulationDimensions.offsetHeight,
-            top: simulationDimensions.offsetTop,
-            left: simulationDimensions.offsetLeft,
-            scaleWidthRatio: simulationDimensions.offsetWidth / localDimensions.width
-        }
-    }
-
-    function resizeEventHandler() {
-        // this mechanism is here to prevent many drawings of the same things when resizing the browser
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(function() {
-            draw();
-        }, intervalMs);
-    }
-
-    function shuffleBalls() {
-        // Fisher–Yates shuffle (https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle)
-        for (var i=0; i<balls.length; i++) {
-            var rand = parseInt(Math.random() * balls.length);
-            var temp = balls[i];
-            balls[i] = balls[rand];
-            balls[rand] = temp;
-        }
-    }
-
-    function start() {
-        balls = [];
-        borders = [];
-        currentFrame = 0;
-        resizeTimeout = undefined;
-
-        // create sick and healthy balls
-        var ballIdx = 0;
-        while (ballIdx < simulationParameters.sickPopulation) {
-            balls.push(new Ball(new States.Sick()));
-            ballIdx ++;
-        }
-        while (ballIdx < simulationParameters.totalPopulation) {
-            balls.push(new Ball(new States.Healthy()));
-            ballIdx++;
-        }
-
-        // shuffle balls
-        shuffleBalls();
-
-        // make socialDistancing balls
-        for (var i=0; i<simulationParameters.socialDistancingPopulation; i++) {
-            balls[i].state.socialDistancing = true;
-            balls[i].velocity = Vector2D.zero();
-        }
-
-        // create borders
-        borders.push(new Border(localDimensions.width/3, borderWidth, false));
-        borders.push(new Border(2*localDimensions.width/3, borderWidth, false));
-
-        // start chart
-        Chart.start();
-
-        // set interval
-        updateInterval = setInterval(update, intervalMs);
-    }
-
     function drawLine(color, position, dimensions) {
         context.strokeStyle = color;
         context.beginPath();
@@ -134,10 +69,71 @@
         context.fill();
     }
 
+    function resizeEventHandler() {
+        // this mechanism is here to prevent many drawings of the same things when resizing the browser
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function() {
+            draw();
+        }, intervalMs);
+    }
+
+    function shuffleBalls() {
+        // Fisher–Yates shuffle (https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle)
+        for (var i=0; i<balls.length; i++) {
+            var rand = parseInt(Math.random() * balls.length);
+            var temp = balls[i];
+            balls[i] = balls[rand];
+            balls[rand] = temp;
+        }
+    }
+
+    function start() {
+        // clean simulation states
+        balls = [];
+        borders = [];
+        currentFrame = 0;
+        resizeTimeout = undefined;
+
+        // create sick and healthy balls
+        var ballIdx = 0;
+        while (ballIdx < simulationParameters.sickPopulation) {
+            balls.push(new Ball(new States.Sick()));
+            ballIdx ++;
+        }
+        while (ballIdx < simulationParameters.totalPopulation) {
+            balls.push(new Ball(new States.Healthy()));
+            ballIdx++;
+        }
+
+        // shuffle balls
+        shuffleBalls();
+
+        // make socialDistancing balls
+        for (var i=0; i<simulationParameters.socialDistancingPopulation; i++) {
+            balls[i].state.socialDistancing = true;
+            balls[i].velocity = Vector2D.zero();
+        }
+
+        // create borders
+        borders.push(new Border(localDimensions.width/3, borderWidth, false));
+        borders.push(new Border(2*localDimensions.width/3, borderWidth, false));
+
+        // start chart
+        Chart.start();
+
+        // set interval
+        updateInterval = setInterval(update, intervalMs);
+    }
+
     function draw() {
+        var dimensions = {
+            width: simulationDimensions.offsetWidth,
+            height: simulationDimensions.offsetHeight,
+            scaleWidthRatio: simulationDimensions.offsetWidth / localDimensions.width
+        };
+
         // update dimensions and clear canvas
         // the canvas is cleared when a new value is attached to dimensions (no matter if a same value)
-        var dimensions = getCanvasDimensions();
         simulationCanvas.width = dimensions.width;
         simulationCanvas.height = dimensions.height;
 
@@ -170,7 +166,7 @@
                     if (!(balls[j].state instanceof States.Dead))
                         balls[i].ballsCollision(balls[j]);
 
-        var statsData = {'sick': 0, 'healthy': 0, 'recovered': 0, 'dead': 0};
+        var statsData = {sick: 0, healthy: 0, recovered: 0, dead: 0};
         for (var i=0; i<balls.length; i++) {
             // update ball position & velocity
             balls[i].move();

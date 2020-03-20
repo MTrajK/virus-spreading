@@ -9,49 +9,49 @@
     var simulationEndBtnsContainer = document.getElementById('simulation-end-btns');
 
     var simulation = {
-        'canvas': document.getElementById('simulation-canvas'),
-        'dimensions': document.getElementById('simulation-dimensions')
+        canvas: document.getElementById('simulation-canvas'),
+        dimensions: document.getElementById('simulation-dimensions')
     };
     var chart = {
-        'canvas': document.getElementById('chart-canvas'),
-        'dimensions': document.getElementById('chart-dimensions')
+        canvas: document.getElementById('chart-canvas'),
+        dimensions: document.getElementById('chart-dimensions')
     };
     var btns = {
-        'start': document.getElementById('start'),
-        'adjust': document.getElementById('adjust'),
-        'restart': document.getElementById('restart')
+        start: document.getElementById('start'),
+        adjust: document.getElementById('adjust'),
+        restart: document.getElementById('restart')
     };
     var borderBtns = {
-        'left': document.getElementById('left-border'),
-        'right': document.getElementById('right-border')
+        left: document.getElementById('left-border'),
+        right: document.getElementById('right-border')
     };
     var sliders = {
-        'population': [
+        population: [
             document.getElementById('population-slider'),
             document.getElementById('population-number')
         ],
-        'sick': [
+        sick: [
             document.getElementById('sick-slider'),
             document.getElementById('sick-percent')
         ],
-        'distancing': [
+        distancing: [
             document.getElementById('distancing-slider'),
             document.getElementById('distancing-percent')
         ],
-        'infection': [
+        infection: [
             document.getElementById('infection-slider'),
             document.getElementById('infection-percent')
         ],
-        'death': [
+        death: [
             document.getElementById('death-slider'),
             document.getElementById('death-percent')
         ]
     };
     var stats = {
-        'healthy': document.getElementById('healthy-number'),
-        'sick': document.getElementById('sick-number'),
-        'recovered': document.getElementById('recovered-number'),
-        'dead': document.getElementById('dead-number')
+        healthy: document.getElementById('healthy-number'),
+        sick: document.getElementById('sick-number'),
+        recovered: document.getElementById('recovered-number'),
+        dead: document.getElementById('dead-number')
     };
 
     /* Helper functions */
@@ -93,17 +93,18 @@
 
         resetBorderBtnsText();
 
-        // start simulation
         var slidersValues = {};
         Object.keys(sliders).forEach(function(key) {
             slidersValues[key] = parseInt(sliders[key][0].value);
         });
+
+        // start simulation
         window.Simulation.init(simulation, chart, simulationStats, simulationEnd, {
-            'totalPopulation': slidersValues.population,
-            'sickPopulation': parseInt(slidersValues.population * slidersValues.sick / 100),
-            'socialDistancingPopulation': parseInt(slidersValues.population * slidersValues.distancing / 100),
-            'infectionRate': slidersValues.infection / 100,
-            'deathRate': slidersValues.death / 100
+            totalPopulation: slidersValues.population,
+            sickPopulation: parseInt(slidersValues.population * slidersValues.sick / 100),
+            socialDistancingPopulation: parseInt(slidersValues.population * slidersValues.distancing / 100),
+            infectionRate: slidersValues.infection / 100,
+            deathRate: slidersValues.death / 100
         });
     });
     btns.adjust.addEventListener('click', function(){

@@ -26,9 +26,6 @@
     }
 
     Ball.prototype.ballsCollision = function(ball) {
-        if (this.state instanceof States.Dead || ball.state instanceof States.Dead)
-            return;
-
         var minDistance = 2 * Ball.radius;
         var positionSub = this.position.sub(ball.position);
         var distance = positionSub.length();

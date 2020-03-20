@@ -15,14 +15,14 @@
         context.fillRect(x, y, width, height);
     }
 
-    function drawPolygon(data, color, dimensions, step) {
+    function drawPolygon(data, color, height, step) {
         context.fillStyle = color;
         context.beginPath();
-        context.moveTo(0, dimensions.height);
+        context.moveTo(0, height);
         var stepI = 0;
         for (var i=0, stepI=0; i<data.length; i++, stepI+=step)
-            context.lineTo(stepI, data[i] * dimensions.height);
-        context.lineTo((data.length - 1) * step, dimensions.height);
+            context.lineTo(stepI, data[i] * height);
+        context.lineTo((data.length - 1) * step, height);
         context.closePath();
         context.fill();
     }
@@ -77,38 +77,36 @@
     }
 
     function draw() {
-        // update dimensions and clear canvas
-        // the canvas is cleared when a new value is attached to dimensions (no matter if a same value)
-        var dimensions = {
-            'width': chartDimensions.offsetWidth,
-            'height': chartDimensions.offsetHeight
-        }
-        chartCanvas.width = dimensions.width;
-        chartCanvas.height = dimensions.height;
-
-        var step = dimensions.width / (totalSteps - 1);
+        var width = chartDimensions.offsetWidth;
+        var height = chartDimensions.offsetHeight;
+        var step = width / (totalSteps - 1);
         var currentStepSize = currentStep * step;
 
+        // update dimensions and clear canvas
+        // the canvas is cleared when a new value is attached to dimensions (no matter if a same value)
+        chartCanvas.width = width;
+        chartCanvas.height = height;
+
         // draw empty rect
-        drawRect('#eee', currentStepSize, 0, dimensions.width - currentStepSize, dimensions.height);
+        drawRect('#eee', currentStepSize, 0, width - currentStepSize, height);
 
         // draw dead line (the whole rectangle)
-        drawRect('#000', 0, 0, currentStepSize, dimensions.height);
+        drawRect('#000', 0, 0, currentStepSize, height);
 
         // draw recovered line
-        drawPolygon(recovered, '#CB8AC0', dimensions, step);
+        drawPolygon(recovered, '#CB8AC0', height, step);
 
         // draw healthy line
-        drawPolygon(healthy, '#AAC6CA', dimensions, step);
+        drawPolygon(healthy, '#AAC6CA', height, step);
 
         // draw danger sick line
-        drawPolygon(sick, 'brown', dimensions, step);
+        drawPolygon(sick, 'brown', height, step);
 
         // draw "safe" sick line
-        drawPolygon(sickLimit, '#BB641D', dimensions, step);
+        drawPolygon(sickLimit, '#BB641D', height, step);
 
         // draw limit line
-        drawLine(dimensions.height * safeLimit, 0, currentStepSize);
+        drawLine(height * safeLimit, 0, currentStepSize);
 
         currentStep++;
     }
