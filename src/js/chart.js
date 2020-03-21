@@ -2,7 +2,7 @@
     'use strict';
 
     /****************
-     * The whole chart logic is here.
+     * All chart logics and drawings are here.
      * The chart canvas ratio is always 10:1.
     ****************/
 
@@ -15,7 +15,7 @@
         context.lineTo(to, height);
         context.closePath();
 
-        context.strokeStyle = '#eee';
+        context.strokeStyle = Common.colors.chart.safeLine;
         context.stroke();
     }
 
@@ -72,7 +72,7 @@
         healthyValue /= maxValue;
         recoveredValue /= maxValue;
 
-        dangerSic.push(sickValue);
+        dangerSick.push(sickValue);
         safeSick.push(Math.max(sickValue, Common.chartSafeLimit));
         healthy.push(healthyValue);
         recovered.push(recoveredValue);
@@ -82,7 +82,7 @@
         // The chart canvas width and height can be found using offsetWidth and offsetHeight
         var width = chartDimensions.offsetWidth;
         var height = chartDimensions.offsetHeight;
-        var stepSize = width / (Common.totalFrames - 1); // minus the first frame/result, because that's the start of the chart
+        var stepSize = width / (Common.simulation.totalFrames - 1); // minus the first frame/result, because that's the start of the chart
         var currentStepSize = currentStep * stepSize;
 
         // update dimensions and clear canvas
@@ -91,22 +91,22 @@
         chartCanvas.height = height;
 
         // draw empty rect (the upcoming time)
-        drawRect('#eee', currentStepSize, 0, width - currentStepSize, height);
+        drawRect(Common.colors.chart.empty, currentStepSize, 0, width - currentStepSize, height);
 
-        // draw dead line (a whole rectangle, the elapsed time)
-        drawRect('#000', 0, 0, currentStepSize, height);
+        // draw dead part (a whole rectangle, the elapsed time)
+        drawRect(Common.colors.chart.dead, 0, 0, currentStepSize, height);
 
-        // draw recovered line
-        drawPolygon(recovered, '#CB8AC0', height, stepSize);
+        // draw recovered part
+        drawPolygon(recovered, Common.colors.chart.recovered, height, stepSize);
 
-        // draw healthy line
-        drawPolygon(healthy, '#AAC6CA', height, stepSize);
+        // draw healthy part
+        drawPolygon(healthy, Common.colors.chart.healthy, height, stepSize);
 
-        // draw danger sick line
-        drawPolygon(dangerSick, 'brown', height, stepSize);
+        // draw danger sick part
+        drawPolygon(dangerSick, Common.colors.chart.dangerSick, height, stepSize);
 
-        // draw "safe" sick line
-        drawPolygon(safeSick, '#BB641D', height, stepSize);
+        // draw "safe" sick part
+        drawPolygon(safeSick, Common.colors.chart.safeSick, height, stepSize);
 
         // draw "safe" line
         drawLine(height * Common.chartSafeLimit, 0, currentStepSize);

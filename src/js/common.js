@@ -2,107 +2,105 @@
     'use strict';
 
     var fps = 60; // Note: if you change this, you'll need to addapt ball speed
-    var intervalMs = 1000 / fps;
-    var simulationSec = 30;
-    var totalFrames = fps * simulationSec;
+    var simulationSeconds = 30; // the simulation lasts 30 seconds
+    var safeLimitPercentage = 0.3; // that's 30 percents capacity
+
+    // loval units
+    var width = 100;
+    var height = 100 * 2 / 3; // the canvas ratio is always 3:2
+    var ballRadius = 0.8;
+    var ballSpeed = 0.2;
+    var ballsGap = 0.001; // a small value used to create gaps between balls
     var borderWidth = 1;
-    var localDimensions = {
-        width: 100, // 1 localDimensions.width is 1 local unit
-        height: 100 * (2/3) // the canvas ratio is always 3:2
-    };
-    var ballProperties = {
-        radius: 0.8, // local units
-        speed: 0.2
-    };
-    var safeLimitPercentage = 0.3;
-    var chartSafeLimit = 1 - safeLimitPercentage; // that's 30 percents capacity (1-0.3)
-    var fullRotation = 2 * Math.PI;
 
-    Ball.adjustStaticProperties = function(radius, speed, localDimensions, infectionRate, deathRate) {
-        Ball.radius = radius;
-        Ball.speed = speed;
-        Ball.localDimensions = localDimensions;
-        Ball.infectionRate = infectionRate;
-        Ball.deathRate = deathRate;
-        Ball.borderCoords = {
-            left: 0 + radius,
-            right: localDimensions.width - radius,
-            top: 0 + radius,
-            bottom: localDimensions.height - radius,
-        };
-        Ball.gap = 0.01; // a small value used to create gaps between balls
-    }
+    var oneThirdWidth = width / 3;
+    var twoThirdsWidth = 2 * oneThirdWidth;
+    var borderWidthHalf = borderWidth / 2;
 
-    var colors = {
-        border: {
-            open: '#eeeeee',
-            closed: '#000000'
-        }
-
-    };
-    var borders = {
-        left: {
-            leftPosition: localDimensions.width/3 - borderWidth/2,
-            rightPosition: localDimensions.width/3 + borderWidth/2,
-            closed: false,
-            color: colors.border.open
-        },
-        right: {
-            leftPosition: 2*localDimensions.width/3 - borderWidth/2,
-            rightPosition: 2*localDimensions.width/3 + borderWidth/2,
-            closed: false,
-            color: colors.border.open
-        }
-    }
-    var states = {
-        healthy: 0,
-        sick: 1,
-        recovered: 2,
-        dead: 3
-    };
-
-    function State(socialDistancing) {
-        this.color = null;
-    }
-
-    function Healthy() {
-        this.color = '#AAC6CA';
-        this.socialDistancing = false;
-    }
-
-    function Recovered() {
-        this.color = '#CB8AC0';
-        this.socialDistancing = false;
-    }
-
-    function Sick() {
-        this.color = '#BB641D';
-        this.socialDistancing = false;
-        var from = 6 * 60;
-        var to = 8 * 60;
-        this.left = parseInt(from + Math.random() * (to - from));
-    }
-
-    Sick.prototype.update = function() {
-        this.left --;
-        return this.left == 0;
-    }
-
-    function Dead() {
-        this.color = '#000000';
-        this.socialDistancing = false;
-    }
+    // colors
+    var blackColor = '#000';
+    var lightGrayColor = '#EEE';
+    var healthyColor = '#AAC6CA';
+    var sickColor = '#BB641D';
+    var recoveredColor = '#CB8AC0';
+    var dangerSickColor = 'brown';
 
     // export Common
     window.Common = {
-        intervalMs: intervalMs,
-        totalFrames: totalFrames,
-        localDimensions: localDimensions,
-        ballProperties: ballProperties,
-        borders: borders,
-        fullRotation: fullRotation,
-        chartSafeLimit: chartSafeLimit,
-        colors: colors
+        states: {
+            healthy: 'healthy',
+            sick: 'sick',
+            recovered: 'recovered',
+            dead: 'dead'
+        },
+        simulation: {
+            intervalMs: 1000 / fps,
+            totalFrames: fps * simulationSeconds
+        },
+        localCanvasDimensions: {
+            width: width,
+            height: height
+        },
+        borders: {
+            left: {
+                position: oneThirdWidth,
+                leftWall: oneThirdWidth - borderWidthHalf,
+                rightWall: oneThirdWidth + borderWidthHalf,
+                ballLeftPosition: oneThirdWidth - borderWidthHalf - ballRadius,
+                ballRightPosition: oneThirdWidth + borderWidthHalf + ballRadius,
+                closed: false,
+                color: lightGrayColor
+            },
+            right: {
+                position: twoThirdsWidth,
+                leftWall: twoThirdsWidth - borderWidthHalf,
+                rightWall: twoThirdsWidth + borderWidthHalf,
+                ballLeftPosition: twoThirdsWidth - borderWidthHalf - ballRadius,
+                ballRightPosition: twoThirdsWidth + borderWidthHalf + ballRadius,
+                closed: false,
+                color: lightGrayColor
+            }
+        },
+        ball: {
+            radius: ballRadius,
+            speed: ballSpeed,
+            gap: ballsGap,
+            fullRotation: 2 * Math.PI,
+            minDistance: 2 * ballRadius
+        },
+        ballMovingBoundaries: {
+            left: ballRadius,
+            right: width - ballRadius,
+            top: ballRadius,
+            bottom: height - ballRadius
+        },
+        colors: {
+            border: {
+                opened: lightGrayColor,
+                closed: blackColor
+            },
+            states: {
+                healthy: healthyColor,
+                sick: sickColor,
+                recovered: recoveredColor,
+                dead: blackColor
+            },
+            chart: {
+                healthy: healthyColor,
+                safeSick: sickColor,
+                dangerSick: dangerSickColor,
+                recovered: recoveredColor,
+                dead: blackColor,
+                empty: lightGrayColor,
+                safeLine: lightGrayColor
+            },
+            canvasBoundary: blackColor,
+        },
+        sicknessInterval: {
+            from: 6 * fps,
+            to: 8 * fps
+        },
+        chartSafeLimit: 1 - safeLimitPercentage
     };
 
 }());

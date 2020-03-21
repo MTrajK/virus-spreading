@@ -76,7 +76,7 @@
     }
 
     function changeBorder(key) {
-        Common.borders[key].color = Common.borders[key].closed ? Common.colors.border.open : Common.colors.border.closed;   // change border color
+        Common.borders[key].color = Common.borders[key].closed ? Common.colors.border.closed : Common.colors.border.opened;   // change border color
         borderBtns[key].value = (Common.borders[key].closed ? 'Open' : 'Close') + ' ' + key + ' border';    // change border button text
     }
 
