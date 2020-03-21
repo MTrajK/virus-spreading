@@ -1,55 +1,24 @@
 (function () {
     'use strict';
 
-    var fps = 60; // Note: if you change this, you'll need to addapt ball speed
-    var intervalMs = 1000 / fps;
-    var simulationSec = 30;
-    var simulationFrames = fps * simulationSec;
-    var borderWidth = 1;
-    var localDimensions = {
-        width: 100, // 1 localDimensions.width is 1 local unit
-        height: 100 * (2/3) // the canvas ratio is always 3:2
-    };
-    var ballProperties = {
-        radius: 0.8, // local units
-        speed: 0.2,
-        startAngle: 0,
-        endAngle: 2 * Math.PI
-    };
-
     var simulationCanvas, simulationDimensions, context, simulationStats, simulationEnd, simulationParameters,
-        updateInterval, balls, currentFrame, borders, resizeTimeout;
+        balls, currentFrame, updateInterval, resizeTimeout;
 
     function drawLine(color, position, dimensions) {
-        context.strokeStyle = color;
+        var scaledPosition = position * dimensions.scaleWidthRatio;
+
         context.beginPath();
-        context.moveTo(position, 0);
-        context.lineTo(position, dimensions.height);
+        context.moveTo(scaledPosition, 0);
+        context.lineTo(scaledPosition, dimensions.height);
         context.closePath();
+
+        context.strokeStyle = color;
         context.stroke();
     }
 
     function drawSectorBorder(border, dimensions) {
-        /*
-        if (border.closed)
-            context.fillStyle = '#000000';
-        else
-            context.fillStyle = '#eeeeee';
-
-        context.fillRect((border.position - borderWidth/2) * dimensions.scaleWidthRatio, 0, (border.position + borderWidth/2) * dimensions.scaleWidthRatio, dimensions.height);
-        */
-        var color = '#eeeeee';
-        if (border.closed)
-            color = '#000000';
-
-        drawLine(color, border.leftPosition * dimensions.scaleWidthRatio, dimensions);
-        drawLine(color, border.rightPosition * dimensions.scaleWidthRatio, dimensions);
-
-        context.beginPath();
-        context.moveTo(border.rightPosition * dimensions.scaleWidthRatio, 0);
-        context.lineTo(border.rightPosition * dimensions.scaleWidthRatio, dimensions.height);
-        context.closePath();
-        context.stroke();
+        drawLine(border.color, border.leftPosition, dimensions);   // left wall
+        drawLine(border.color, border.rightPosition, dimensions);  // right wall
     }
 
     function drawCanvasBorder(dimensions) {
@@ -58,11 +27,11 @@
     }
 
     function drawBall(ball, scaleWidthRatio) {
-        var scaledCoords = ball.position.mult(scaleWidthRatio); // convert the coordinates in CANVAS size
+        var scaledCoords = ball.position.mult(scaleWidthRatio);
+        var scaledRadius = Common.ballProperties.radius * scaleWidthRatio;
 
         context.beginPath();
-        context.arc(scaledCoords.X, scaledCoords.Y, ballProperties.radius * scaleWidthRatio, // convert the radius too
-            ballProperties.startAngle, ballProperties.endAngle);
+        context.arc(scaledCoords.X, scaledCoords.Y, scaledRadius, 0, Common.fullRotation);
         context.closePath();
 
         context.fillStyle = ball.state.color;
@@ -70,11 +39,11 @@
     }
 
     function resizeEventHandler() {
-        // this mechanism is here to prevent many drawings of the same things when resizing the browser
+        // this mechanism is to prevent/delay many drawings of the same things when resizing the browser
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(function() {
             draw();
-        }, intervalMs);
+        }, Common.intervalMs);
     }
 
     function shuffleBalls() {
@@ -90,15 +59,13 @@
     function start() {
         // clean simulation states
         balls = [];
-        borders = [];
         currentFrame = 0;
-        resizeTimeout = undefined;
 
         // create sick and healthy balls
         var ballIdx = 0;
         while (ballIdx < simulationParameters.sickPopulation) {
             balls.push(new Ball(new States.Sick()));
-            ballIdx ++;
+            ballIdx++;
         }
         while (ballIdx < simulationParameters.totalPopulation) {
             balls.push(new Ball(new States.Healthy()));
@@ -114,22 +81,18 @@
             balls[i].velocity = Vector2D.zero();
         }
 
-        // create borders
-        borders.push(new Border(localDimensions.width/3, borderWidth, false));
-        borders.push(new Border(2*localDimensions.width/3, borderWidth, false));
-
         // start chart
         Chart.start();
 
         // set interval
-        updateInterval = setInterval(update, intervalMs);
+        updateInterval = setInterval(update, Common.intervalMs);
     }
 
     function draw() {
         var dimensions = {
             width: simulationDimensions.offsetWidth,
             height: simulationDimensions.offsetHeight,
-            scaleWidthRatio: simulationDimensions.offsetWidth / localDimensions.width
+            scaleWidthRatio: simulationDimensions.offsetWidth / Common.localDimensions.width
         };
 
         // update dimensions and clear canvas
@@ -138,8 +101,8 @@
         simulationCanvas.height = dimensions.height;
 
         // draw sector borders
-        drawSectorBorder(borders[0], dimensions);
-        drawSectorBorder(borders[1], dimensions);
+        drawSectorBorder(borders.left, dimensions);
+        drawSectorBorder(borders.right, dimensions);
 
         // draw canvas border
         drawCanvasBorder(dimensions);
@@ -160,6 +123,8 @@
 
     function update() {
         // check collisions and update state, positions & velocities
+        // This O(N^2) method could be faster using
+        // Binary Space Partitioning (https://en.wikipedia.org/wiki/Binary_space_partitioning) or Quadtrees (https://en.wikipedia.org/wiki/Quadtree)
         for (var i=0; i<balls.length; i++)
             if (!(balls[i].state instanceof States.Dead))
                 for (var j=i+1; j<balls.length; j++)
@@ -175,7 +140,7 @@
             balls[i].canvasCollision();
 
             // check sector borders collision
-            balls[i].sectorCollision(borders);
+            balls[i].bordersCollision();
 
             // count stats
             if (balls[i].state instanceof States.Sick)
@@ -199,7 +164,7 @@
 
         // stop simulation if needed
         currentFrame++;
-        if (currentFrame == simulationFrames) {
+        if (currentFrame == Common.totalFrames) {
             clearInterval(updateInterval);
             window.addEventListener('resize', resizeEventHandler);
             simulationEnd();
@@ -217,19 +182,20 @@
         simulationParameters = parameters;
 
         // init static properties for ball class
-        Ball.adjustStaticProperties(ballProperties.radius, ballProperties.speed, localDimensions,
-            simulationParameters.infectionRate, simulationParameters.deathRate);
+        // TODO: Should this be located in common.js????
+        Ball.infectionRate = simulationParameters.infectionRate;
+        Ball.deathRate = simulationParameters.deathRate;
 
         // init chart
-        Chart.init(chart, simulationFrames, simulationParameters.totalPopulation, 0.3);
+        Chart.init(chart, simulationParameters.totalPopulation);
 
         start();
     }
 
     function clear() {
         // clear resize handler
-        clearTimeout(resizeTimeout);
         window.removeEventListener('resize', resizeEventHandler);
+        clearTimeout(resizeTimeout);
 
         // clear chart
         Chart.clear();
@@ -243,18 +209,11 @@
         start();
     }
 
-    function border(side) {
-        var num = (side == 'left') ? 0 : 1;
-        borders[num].closed = !borders[num].closed;
-        return borders[num].closed;
-    }
-
-    /* Save these functions as global */
+    // export Simulation (only the public methods)
     window.Simulation = {
         init: init,
         clear: clear,
-        restart: restart,
-        border: border
+        restart: restart
     };
 
 }());

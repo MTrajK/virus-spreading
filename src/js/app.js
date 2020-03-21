@@ -59,23 +59,34 @@
     function hide(element) {
         element.style.display = 'none';
     }
+
     function show(element) {
         element.style.display = 'block';
     }
+
     function simulationEnd() {
         hide(borderBtnsContainer);
         show(simulationEndBtnsContainer);
     }
+
     function simulationStats(data) {
         Object.keys(stats).forEach(function(key) {
             stats[key].innerHTML = data[key];
         });
     }
-    function resetBorderBtnsText() {
+
+    function changeBorder(key) {
+        Common.borders[key].color = Common.borders[key].closed ? Common.colors.border.open : Common.colors.border.closed;   // change border color
+        borderBtns[key].value = (Common.borders[key].closed ? 'Open' : 'Close') + ' ' + key + ' border';    // change border button text
+    }
+
+    function resetBorders() {
         Object.keys(borderBtns).forEach(function(key) {
-            borderBtns[key].value = 'Close ' + key + ' border';
+            Common.borders[key].closed = false;
+            changeBorder(key);
         });
     }
+
     function addSliderEventListener(event, key) {
         sliders[key][0].addEventListener(event, function() {
             sliders[key][1].innerHTML = sliders[key][0].value;
@@ -85,13 +96,13 @@
     /* Attach event listeners */
 
     btns.start.addEventListener('click', function(){
-        show(borderBtnsContainer);
+        hide(parametersContainer);
         hide(simulationEndBtnsContainer);
 
-        hide(parametersContainer);
         show(simulationContainer);
+        show(borderBtnsContainer);
 
-        resetBorderBtnsText();
+        resetBorders();
 
         var slidersValues = {};
         Object.keys(sliders).forEach(function(key) {
@@ -99,7 +110,7 @@
         });
 
         // start simulation
-        window.Simulation.init(simulation, chart, simulationStats, simulationEnd, {
+        Simulation.init(simulation, chart, simulationStats, simulationEnd, {
             totalPopulation: slidersValues.population,
             sickPopulation: parseInt(slidersValues.population * slidersValues.sick / 100),
             socialDistancingPopulation: parseInt(slidersValues.population * slidersValues.distancing / 100),
@@ -107,26 +118,32 @@
             deathRate: slidersValues.death / 100
         });
     });
-    btns.adjust.addEventListener('click', function(){
-        show(parametersContainer);
-        hide(simulationContainer);
-        // end simulation
-        window.Simulation.clear();
-    });
-    btns.restart.addEventListener('click', function(){
-        show(borderBtnsContainer);
-        hide(simulationEndBtnsContainer);
 
-        resetBorderBtnsText();
+    btns.adjust.addEventListener('click', function(){
+        hide(simulationContainer);
+        show(parametersContainer);
+
+        // end simulation
+        Simulation.clear();
+    });
+
+    btns.restart.addEventListener('click', function(){
+        hide(simulationEndBtnsContainer);
+        show(borderBtnsContainer);
+
+        resetBorders();
 
         // restart simulation
-        window.Simulation.restart();
+        Simulation.restart();
     });
+
     Object.keys(borderBtns).forEach(function(key) {
         borderBtns[key].addEventListener('click', function(){
-            borderBtns[key].value = (window.Simulation.border(key) ? 'Open' : 'Close') + ' ' + key + ' border';
+            Common.borders[key].closed = !Common.borders[key].closed;   // Open or close border
+            changeBorder(key);
         });
     });
+
     Object.keys(sliders).forEach(function(key) {
         addSliderEventListener('change', key);   // for Internet Explorer
         addSliderEventListener('input', key);    // for the rest browsers

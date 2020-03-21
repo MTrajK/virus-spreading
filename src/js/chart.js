@@ -2,49 +2,51 @@
     'use strict';
 
     /****************
-        The canvas ratio is always 10:1
-        The responsive chart width could be found in chartDimensions.offsetWidth
-        The responsive chart height could be found in chartDimensions.offsetHeight
+     * The whole chart logic is here.
+     * The chart canvas ratio is always 10:1.
     ****************/
 
-    var chartCanvas, chartDimensions, context, totalSteps, maxValue, safeLimit,
-        currentStep, sick, sickLimit, healthy, recovered;
+    var chartCanvas, chartDimensions, context, maxValue,
+        currentStep, dangerSick, safeSick, healthy, recovered;
+
+    function drawLine(height, from, to) {
+        context.beginPath();
+        context.moveTo(from, height);
+        context.lineTo(to, height);
+        context.closePath();
+
+        context.strokeStyle = '#eee';
+        context.stroke();
+    }
 
     function drawRect(color, x, y, width, height) {
         context.fillStyle = color;
         context.fillRect(x, y, width, height);
     }
 
-    function drawPolygon(data, color, height, step) {
-        context.fillStyle = color;
+    function drawPolygon(data, color, height, stepSize) {
         context.beginPath();
         context.moveTo(0, height);
-        var stepI = 0;
-        for (var i=0, stepI=0; i<data.length; i++, stepI+=step)
-            context.lineTo(stepI, data[i] * height);
-        context.lineTo((data.length - 1) * step, height);
+
+        var step = -stepSize;
+        for (var i=0; i<data.length; i++) {
+            step += stepSize;
+            context.lineTo(step, data[i] * height);
+        }
+
+        context.lineTo(step, height);
         context.closePath();
+
+        context.fillStyle = color;
         context.fill();
     }
 
-    function drawLine(height, from, to) {
-        context.strokeStyle = '#eee';
-        context.beginPath();
-        context.moveTo(from, height);
-        context.lineTo(to, height);
-        context.closePath();
-        context.stroke();
-    }
-
-    function init(chart, steps, value, safeLimitPercentage) {
+    function init(chart, value) {
         // init parameters
         chartCanvas =  chart.canvas;
         chartDimensions = chart.dimensions;
         context = chartCanvas.getContext('2d');
-
-        totalSteps = steps;
         maxValue = value;
-        safeLimit = 1 - safeLimitPercentage;
     }
 
     function clear() {
@@ -54,8 +56,8 @@
 
     function start() {
         // clean chart states
-        sick = [];
-        sickLimit = [];
+        dangerSick = [];
+        safeSick = [];
         healthy = [];
         recovered = [];
         currentStep = 0;
@@ -70,48 +72,49 @@
         healthyValue /= maxValue;
         recoveredValue /= maxValue;
 
-        sick.push(sickValue);
-        sickLimit.push(Math.max(sickValue, safeLimit));
+        dangerSic.push(sickValue);
+        safeSick.push(Math.max(sickValue, Common.chartSafeLimit));
         healthy.push(healthyValue);
         recovered.push(recoveredValue);
     }
 
     function draw() {
+        // The chart canvas width and height can be found using offsetWidth and offsetHeight
         var width = chartDimensions.offsetWidth;
         var height = chartDimensions.offsetHeight;
-        var step = width / (totalSteps - 1);
-        var currentStepSize = currentStep * step;
+        var stepSize = width / (Common.totalFrames - 1); // minus the first frame/result, because that's the start of the chart
+        var currentStepSize = currentStep * stepSize;
 
         // update dimensions and clear canvas
         // the canvas is cleared when a new value is attached to dimensions (no matter if a same value)
         chartCanvas.width = width;
         chartCanvas.height = height;
 
-        // draw empty rect
+        // draw empty rect (the upcoming time)
         drawRect('#eee', currentStepSize, 0, width - currentStepSize, height);
 
-        // draw dead line (the whole rectangle)
+        // draw dead line (a whole rectangle, the elapsed time)
         drawRect('#000', 0, 0, currentStepSize, height);
 
         // draw recovered line
-        drawPolygon(recovered, '#CB8AC0', height, step);
+        drawPolygon(recovered, '#CB8AC0', height, stepSize);
 
         // draw healthy line
-        drawPolygon(healthy, '#AAC6CA', height, step);
+        drawPolygon(healthy, '#AAC6CA', height, stepSize);
 
         // draw danger sick line
-        drawPolygon(sick, 'brown', height, step);
+        drawPolygon(dangerSick, 'brown', height, stepSize);
 
         // draw "safe" sick line
-        drawPolygon(sickLimit, '#BB641D', height, step);
+        drawPolygon(safeSick, '#BB641D', height, stepSize);
 
-        // draw limit line
-        drawLine(height * safeLimit, 0, currentStepSize);
+        // draw "safe" line
+        drawLine(height * Common.chartSafeLimit, 0, currentStepSize);
 
         currentStep++;
     }
 
-    /* Save these functions as global */
+    // export Chart (only the public methods)
     window.Chart = {
         init: init,
         clear: clear,

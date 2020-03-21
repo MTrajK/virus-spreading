@@ -13,20 +13,9 @@
         this.velocity = Vector2D.random().sub(new Vector2D(0.5, 0.5)).tryNormalize().mult(Ball.speed);
     }
 
-    Ball.adjustStaticProperties = function(radius, speed, localDimensions, infectionRate, deathRate) {
-        Ball.radius = radius;
-        Ball.speed = speed;
-        Ball.localDimensions = localDimensions;
-        Ball.infectionRate = infectionRate;
-        Ball.deathRate = deathRate;
-        Ball.borderCoords = {
-            left: 0 + radius,
-            right: localDimensions.width - radius,
-            top: 0 + radius,
-            bottom: localDimensions.height - radius,
-        };
-        Ball.gap = 0.01; // a small value used to create gaps between balls
-    }
+    // static properties
+    Ball.infectionRate = undefined;
+    Ball.deathRate = undefined;
 
     Ball.prototype.ballsCollision = function(ball) {
         var minDistance = 2 * Ball.radius;
@@ -49,6 +38,7 @@
             }
             else {
                 if (!ball.state.socialDistancing || !this.state.socialDistancing) {
+                    // TODO: No need from this description!!! Just write Elastic collision and the link.
                     /*********************************************************
                         The formula could be found here: https://en.wikipedia.org/wiki/Elastic_collision
                         velocityA -= (dot(velocityAB_sub, positionAB_sub) / distance^2) * positionAB_sub
@@ -101,7 +91,7 @@
         }
     }
 
-    Ball.prototype.sectorCollision = function(borders) {
+    Ball.prototype.bordersCollision = function() {
         for (var i=0; i<borders.length; i++)
             if (borders[i].closed) {
                 if (borders[i].leftPosition - Ball.radius <= this.position.X && borders[i].rightPosition + Ball.radius >= this.position.X) {
