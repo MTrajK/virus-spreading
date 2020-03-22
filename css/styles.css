@@ -1,68 +1,233 @@
-@media only screen and (max-width: 480px) {
-    #graph {
-        margin: 35px auto 0;
+* {
+    font-family: sans-serif, arial;
+    color: #616161;
+}
+
+@media screen and (max-width: 480px) {
+    #chart {
+        margin: 30px auto 0;
     }
 
-    #graph-dimensions {
-        width: 150px;
-        height: 15px;
+    #chart-dimensions {
+        width: 250px;
+        height: 25px;
     }
 
-    #dimensions {
+    #simulation-dimensions {
         margin: 20px auto 0;
+        width: 300px;
+        height: 200px;
+    }
+
+    input[type=button] {
+        font-size: 13px;
+        height: 33px;
+        line-height: 33px;
+        padding: 0 10px;
+        margin-top: 20px;
+    }
+
+    input[type=range] {
         width: 200px;
-        height: 133px;
+    }
+
+    #parameters {
+        margin: 30px auto 0;
+    }
+
+    #chart-stats {
+        font-size: 11px;
+    }
+
+    .parameters-text {
+        font-size: 13px;
+    }
+
+    .parameters-title {
+        font-size: 17px;
+        margin-bottom: 30px;
+    }
+
+    #chart-stats > span {
+        padding-right: 5px;
+        padding-left: 0px;
+    }
+
+    .notes {
+        font-size: 12px;
+        width: 250px;
+        margin: 30px auto;
     }
 }
 
-@media only screen and (min-width: 481px) and (max-width: 630px) {
-    #graph {
+@media screen and (min-width: 481px) and (max-width: 630px) {
+    #chart {
         margin: 35px auto 0;
     }
 
-    #graph-dimensions {
+    #chart-dimensions {
         width: 350px;
         height: 35px;
     }
 
-    #dimensions {
+    #simulation-dimensions {
         margin: 20px auto 0;
         width: 400px;
         height: 266px;
     }
-}
 
-@media only screen and (min-width: 631px) and (max-width: 1500px) {
-    #graph {
-        margin: 50px auto 0;
+    input[type=button] {
+        font-size: 15px;
+        height: 37px;
+        line-height: 37px;
+        padding: 0 11px;
+        margin-top: 20px;
     }
 
-    #graph-dimensions {
+    input[type=range] {
+        width: 300px;
+    }
+
+    #parameters {
+        margin: 40px auto 0;
+    }
+
+    #chart-stats {
+        font-size: 12px;
+    }
+
+    .parameters-text {
+        font-size: 15px;
+    }
+
+    .parameters-title {
+        font-size: 18px;
+        margin-bottom: 40px;
+    }
+
+    #chart-stats > span {
+        padding-right: 6px;
+        padding-left: 1px;
+    }
+
+    .notes {
+        font-size: 13px;
+        width: 350px;
+        margin: 35px auto;
+    }
+}
+
+@media screen and (min-width: 631px) and (max-width: 1500px) {
+    #chart {
+        margin: 40px auto 0;
+    }
+
+    #chart-dimensions {
         width: 500px;
         height: 50px;
     }
 
-    #dimensions {
+    #simulation-dimensions {
         margin: 25px auto 0;
         width: 600px;
         height: 399px;
     }
+
+    input[type=button] {
+        font-size: 17px;
+        height: 43px;
+        line-height: 43px;
+        padding: 0 13px;
+        margin-top: 25px;
+    }
+
+    input[type=range] {
+        width: 350px;
+    }
+
+    #parameters {
+        margin: 50px auto 0;
+    }
+
+    #chart-stats {
+        font-size: 15px;
+    }
+
+    .parameters-text {
+        font-size: 17px;
+    }
+
+    .parameters-title {
+        font-size: 20px;
+        margin-bottom: 45px;
+    }
+
+    #chart-stats > span {
+        padding-right: 7px;
+        padding-left: 2px;
+    }
+
+    .notes {
+        font-size: 14px;
+        width: 460px;
+        margin: 35px auto;
+    }
 }
 
 @media only screen and (min-width: 1501px) {
-    #graph {
-        margin: 75px auto 0;
+    #chart {
+        margin: 50px auto 0;
     }
 
-    #graph-dimensions {
+    #chart-dimensions {
         width: 750px;
         height: 75px;
     }
 
-    #dimensions {
+    #simulation-dimensions {
         margin: 30px auto 0;
         width: 900px;
         height: 600px;
+    }
+
+    input[type=button] {
+        font-size: 18px;
+        height: 50px;
+        line-height: 50px;
+        padding: 0 15px;
+        margin-top: 30px;
+    }
+
+    input[type=range] {
+        width: 400px;
+    }
+
+    #parameters {
+        margin: 60px auto 0;
+    }
+
+    #chart-stats {
+        font-size: 16px;
+    }
+
+    .parameters-text {
+        font-size: 18px;
+    }
+
+    .parameters-title {
+        font-size: 22px;
+        margin-bottom: 50px;
+    }
+
+    #chart-stats > span {
+        padding-right: 8px;
+        padding-left: 3px;
+    }
+
+    .notes {
+        font-size: 15px;
+        width: 500px;
+        margin: 40px auto;
     }
 }
 
@@ -74,50 +239,208 @@
     text-align: center;
 }
 
-#parameters {
-    margin-top: 100px;
-}
-
-#start, #adjust, #restart, #border1, #border2 {
-    font-size: 18px;
-    padding: 5px 10px;
-    font-weight: bold;
-    margin-top: 50px;
-}
-
-#graph-dimensions {
+#chart-dimensions {
     display: inline-block;
 }
 
-#graph-stats {
-    margin-bottom: 5px;
-}
-
-#graph-stats > span {
-    padding: 0px 5px;
-}
-
-.right-border {
-    border-right: gray 2px solid;
-}
-
-.number {
-    font-size: 15px;
+.number, .parameters-text, .parameters-title {
     font-weight: bold;
 }
 
+#chart-stats {
+    margin-bottom: 5px;
+}
+
+.border-on-right {
+    border-right: gray 2px solid;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
 #healthy-number {
-    color: #AAC6CA;
+    color: #AED581;
 }
 
 #sick-number {
-    color: #BB641D;
+    color: #E53935;
 }
 
 #recovered-number {
-    color: #CB8AC0;
+    color: #FF9800;
 }
 
 #dead-number {
     color: #000000;
+}
+
+/* BUTTON STYLES */
+
+input[type=button] {
+    cursor: pointer;
+    background-color: #EEEEEE;
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    -moz-box-shadow: inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow: inset 0px 1px 0px 0px #ffffff;
+    border: 1px solid #616161;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    font-weight: bold;
+    font-style: normal;
+    text-decoration: none;
+    text-align: center;
+    text-shadow: 0px 1px 0px #ffffff;
+    outline: none;
+}
+
+input[type=button]:hover {
+    background-color: #E0E0E0;
+}
+
+.input[type=button]:active {
+    position: relative;
+    top: 1px;
+}
+
+/* SLIDER STYLES */
+/* Taken from here https://www.cssportal.com/style-input-range/ */
+
+input[type=range] {
+    height: 38px;
+    -webkit-appearance: none;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 10px;
+    cursor: pointer;
+    background: #EEEEEE;
+    border: 1px solid #616161;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    animate: 0.2s;
+    -moz-animate: 0.2s;
+    -webkit-animate: 0.2s;
+    box-shadow: 1px 1px 1px #616161;
+    -moz-box-shadow: 1px 1px 1px #616161;
+    -webkit-box-shadow: 1px 1px 1px #616161;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    height: 30px;
+    width: 15px;
+    cursor: pointer;
+    background: #FFFFFF;
+    border: 1px solid #616161;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 1px 1px 1px #616161;
+    -moz-box-shadow: 1px 1px 1px #616161;
+    -webkit-box-shadow: 1px 1px 1px #616161;
+    -webkit-appearance: none;
+    margin-top: -11px;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #EEEEEE;
+}
+
+input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 10px;
+    cursor: pointer;
+    background: #EEEEEE;
+    border-radius: 3px;
+    border: 1px solid #616161;
+    animate: 0.2s;
+    -moz-animate: 0.2s;
+    -webkit-animate: 0.2s;
+    box-shadow: 1px 1px 1px #616161;
+    -moz-box-shadow: 1px 1px 1px #616161;
+    -webkit-box-shadow: 1px 1px 1px #616161;
+}
+
+input[type=range]::-moz-range-thumb {
+    height: 30px;
+    width: 15px;
+    cursor: pointer;
+    background: #FFFFFF;
+    border: 1px solid #616161;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 1px 1px 1px #616161;
+    -moz-box-shadow: 1px 1px 1px #616161;
+    -webkit-box-shadow: 1px 1px 1px #616161;
+}
+
+input[type=range]::-ms-track {
+    width: 100%;
+    height: 10px;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+    cursor: pointer;
+    animate: 0.2s;
+    -moz-animate: 0.2s;
+    -webkit-animate: 0.2s;
+}
+
+input[type=range]::-ms-fill-lower {
+    background: #EEEEEE;
+    border: 1px solid #616161;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 1px 1px 1px #616161;
+    -moz-box-shadow: 1px 1px 1px #616161;
+    -webkit-box-shadow: 1px 1px 1px #616161;
+}
+
+input[type=range]::-ms-fill-upper {
+    background: #EEEEEE;
+    border: 1px solid #616161;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 1px 1px 1px #616161;
+    -moz-box-shadow: 1px 1px 1px #616161;
+    -webkit-box-shadow: 1px 1px 1px #616161;
+}
+
+input[type=range]::-ms-thumb {
+    height: 30px;
+    width: 15px;
+    margin-top: 1px;
+    border: 1px solid #616161;
+    background: #FFFFFF;
+    cursor: pointer;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 1px 1px 1px #616161;
+    -moz-box-shadow: 1px 1px 1px #616161;
+    -webkit-box-shadow: 1px 1px 1px #616161;
+}
+
+input[type=range]:focus::-ms-fill-lower {
+    background: #EEEEEE;
+}
+
+input[type=range]:focus::-ms-fill-upper {
+    background: #EEEEEE;
 }

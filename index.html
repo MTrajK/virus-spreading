@@ -3,7 +3,29 @@
 
 <head>
 
-    <title>Virus Spreading</title>
+    <title>Virus Spreading Simulation</title>
+
+    <meta property="og:image" content="https://mtrajk.github.io/virus-spreading/img/virus.png">
+    <meta property="og:image:width" content="540">
+    <meta property="og:image:height" content="540">
+    <meta property="og:url" content="https://mtrajk.github.io/virus-spreading/">
+    <meta property="og:description" content="A simple responsive and mobile-friendly virus spreading simulation">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Virus Spreading Simulation">
+    <meta name="twitter:image" content="https://mtrajk.github.io/virus-spreading/img/virus.png" />
+    <meta name="twitter:url" content="https://mtrajk.github.io/virus-spreading/" />
+    <meta name="twitter:description" content="A simple responsive and mobile-friendly virus spreading simulation" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Virus Spreading Simulation" />
+
+    <meta name="author" content="Meto Trajkovski">
+    <meta name="description" content="A simple responsive and mobile-friendly virus spreading simulation">
+    <meta name="keywords" content="virus, spreading, simulation">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
 
     <link rel="stylesheet" type="text/css" href="css/styles.css">
 
@@ -12,26 +34,26 @@
 <body>
 
     <div id="simulation">
-        <div id="graph">
-            <div id="graph-stats">
-                <span class="right-border">Healthy <span id="healthy-number" class="number">12</span></span>
-                <span class="right-border">Sick <span id="sick-number" class="number">12</span></span>
-                <span class="right-border">Recovered <span id="recovered-number" class="number">12</span></span>
-                <span>Dead <span id="dead-number" class="number">12</span></span>
+        <div id="chart">
+            <div id="chart-stats">
+                <span class="border-on-right">Healthy <span id="healthy-number" class="number"></span></span>
+                <span class="border-on-right">Sick <span id="sick-number" class="number"></span></span>
+                <span class="border-on-right">Recovered <span id="recovered-number" class="number"></span></span>
+                <span>Dead <span id="dead-number" class="number"></span></span>
             </div>
 
-            <div id="graph-dimensions">
-                <canvas id="graph-canvas"></canvas>
+            <div id="chart-dimensions">
+                <canvas id="chart-canvas"></canvas>
             </div>
         </div>
 
-        <div id="dimensions">
-            <canvas id="canvas"></canvas>
+        <div id="simulation-dimensions">
+            <canvas id="simulation-canvas"></canvas>
         </div>
 
         <div id="borders-btns">
-            <input type="button" id="border1" value="Close border 1"/>
-            <input type="button" id="border2" value="Close border 2"/>
+            <input type="button" id="left-border" value="Close left border"/>
+            <input type="button" id="right-border" value="Close right border"/>
         </div>
 
         <div id="simulation-end-btns">
@@ -42,24 +64,45 @@
 
 
     <div id="parameters">
-        <h2>Virus Spreading Simulation</h2></br>
+        <p class="parameters-title">Virus Spreading Simulation</p>
 
-        <div><h3>Population (50-150)</h3> <input type="range" id="population-slider" name="population" min="50" max="150" step="1" value="100"></div>
-        <div><h3>Sick population (%)</h3> <input type="range" id="sick-slider" name="sick" min="0" max="1" step="0.005" value="0.01"></div>
-        <div><h3>Social distancing (%)</h3> <input type="range" id="distancing-slider" name="distancing" min="0" max="1" step="0.005" value="0"></div>
-        <div><h3>Infection rate (%)</h3> <input type="range" id="infection-slider" name="infection" min="0" max="1" step="0.005" value="1"></div>
-        <div><h3>Death rate (%)</h3> <input type="range" id="death-slider" name="death" min="0" max="1" step="0.005" value="0.03"></div>
+        <div class="parameters-text">
+            <p>Population: <span id="population-number">125</span></p>
+            <input type="range" id="population-slider" name="population" min="50" max="200" step="1" value="125">
+        </div>
+        <div class="parameters-text">
+            <p>Sick population: <span id="sick-percent">1</span>%</p>
+            <input type="range" id="sick-slider" name="sick" min="0" max="100" step="1" value="1">
+        </div>
+        <div class="parameters-text">
+            <p>Social distancing: <span id="distancing-percent">0</span>%</p>
+            <input type="range" id="distancing-slider" name="distancing" min="0" max="100" step="1" value="0">
+        </div>
+        <div class="parameters-text">
+            <p>Infection rate: <span id="infection-percent">100</span>%</p>
+            <input type="range" id="infection-slider" name="infection" min="0" max="100" step="1" value="100">
+        </div>
+        <div class="parameters-text">
+            <p>Death rate: <span id="death-percent">3</span>%</p>
+            <input type="range" id="death-slider" name="death" min="0" max="100" step="1" value="3">
+        </div>
 
         <input type="button" id="start" value="Start simulation"/>
+
+        <div class="notes">
+            <p>This simulation is inspired by this great <a target="blank" href="https://www.washingtonpost.com/graphics/2020/world/corona-simulator/">article</a>.</p>
+            <p>Educational videos about a virus spreading: <a target="_blank" href="https://www.youtube.com/watch?v=Kas0tIxDvrg">video 1</a>, <a target="_blank" href="https://www.youtube.com/watch?v=fgBla7RepXU"> video 2</a>, and <a target="_blank" href="https://www.youtube.com/watch?v=I5-dI74zxPg">video 3</a>.</p>
+            <p><b>Stay home</b> during a pandemic, because the social distancing is the most powerful medication.</p>
+            <p><i>Note: This simple simulation isn't a 100% real-world simulation, because there are many more factors in the real world and the people aren't just balls that are bouncing.</i></p>
+        </div>
     </div>
 
+    <script src="js/common.js"></script>
     <script src="js/vector2d.js"></script>
-    <script src="js/states.js"></script>
-    <script src="js/border.js"></script>
     <script src="js/ball.js"></script>
-    <script src="js/graph.js"></script>
+    <script src="js/chart.js"></script>
     <script src="js/simulation.js"></script>
-    <script src="js/parameters.js"></script>
+    <script src="js/app.js"></script>
 
 </body>
 
