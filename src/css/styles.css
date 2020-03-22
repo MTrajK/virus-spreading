@@ -1,3 +1,8 @@
+* {
+    font-family: sans-serif, arial;
+    color: #616161;
+}
+
 @media only screen and (max-width: 480px) {
     #chart {
         margin: 35px auto 0;
@@ -78,13 +83,6 @@
     margin-top: 100px;
 }
 
-#start, #adjust, #restart, #left-border, #right-border {
-    font-size: 18px;
-    padding: 5px 10px;
-    font-weight: bold;
-    margin-top: 50px;
-}
-
 #chart-dimensions {
     display: inline-block;
 }
@@ -120,4 +118,175 @@
 
 #dead-number {
     color: #000000;
+}
+
+/* BUTTON STYLES */
+
+input[type=button] {
+    cursor: pointer;
+    background-color: #EEEEEE;
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    -moz-box-shadow: inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow: inset 0px 1px 0px 0px #ffffff;
+    border: 1px solid #616161;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    font-size: 18px;
+    font-weight: bold;
+    font-style: normal;
+    height: 50px;
+    line-height: 50px;
+    text-decoration: none;
+    text-align: center;
+    text-shadow: 0px 1px 0px #ffffff;
+    padding: 0 15px;
+    margin-top: 50px;
+    outline: none;
+}
+
+input[type=button]:hover {
+    background-color: #E0E0E0;
+}
+
+.input[type=button]:active {
+    position: relative;
+    top: 1px;
+}
+
+/* SLIDER STYLES */
+/* Taken from here https://www.cssportal.com/style-input-range/ */
+
+input[type=range] {
+    width: 400px;
+    height: 38px;
+    margin: 10px 0;
+    -webkit-appearance: none;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 10px;
+    cursor: pointer;
+    background: #EEEEEE;
+    border: 1px solid #616161;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    animate: 0.2s;
+    -moz-animate: 0.2s;
+    -webkit-animate: 0.2s;
+    box-shadow: 1px 1px 1px #616161;
+    -moz-box-shadow: 1px 1px 1px #616161;
+    -webkit-box-shadow: 1px 1px 1px #616161;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    height: 30px;
+    width: 15px;
+    cursor: pointer;
+    background: #FFFFFF;
+    border: 1px solid #616161;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 1px 1px 1px #616161;
+    -moz-box-shadow: 1px 1px 1px #616161;
+    -webkit-box-shadow: 1px 1px 1px #616161;
+    -webkit-appearance: none;
+    margin-top: -11px;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #EEEEEE;
+}
+
+input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 10px;
+    cursor: pointer;
+    background: #EEEEEE;
+    border-radius: 3px;
+    border: 1px solid #616161;
+    animate: 0.2s;
+    -moz-animate: 0.2s;
+    -webkit-animate: 0.2s;
+    box-shadow: 1px 1px 1px #616161;
+    -moz-box-shadow: 1px 1px 1px #616161;
+    -webkit-box-shadow: 1px 1px 1px #616161;
+}
+
+input[type=range]::-moz-range-thumb {
+    height: 30px;
+    width: 15px;
+    cursor: pointer;
+    background: #FFFFFF;
+    border: 1px solid #616161;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 1px 1px 1px #616161;
+    -moz-box-shadow: 1px 1px 1px #616161;
+    -webkit-box-shadow: 1px 1px 1px #616161;
+}
+
+input[type=range]::-ms-track {
+    width: 100%;
+    height: 10px;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+    cursor: pointer;
+    animate: 0.2s;
+    -moz-animate: 0.2s;
+    -webkit-animate: 0.2s;
+}
+
+input[type=range]::-ms-fill-lower {
+    background: #EEEEEE;
+    border: 1px solid #616161;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 1px 1px 1px #616161;
+    -moz-box-shadow: 1px 1px 1px #616161;
+    -webkit-box-shadow: 1px 1px 1px #616161;
+}
+
+input[type=range]::-ms-fill-upper {
+    background: #EEEEEE;
+    border: 1px solid #616161;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 1px 1px 1px #616161;
+    -moz-box-shadow: 1px 1px 1px #616161;
+    -webkit-box-shadow: 1px 1px 1px #616161;
+}
+
+input[type=range]::-ms-thumb {
+    height: 30px;
+    width: 15px;
+    margin-top: 1px;
+    border: 1px solid #616161;
+    background: #FFFFFF;
+    cursor: pointer;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 1px 1px 1px #616161;
+    -moz-box-shadow: 1px 1px 1px #616161;
+    -webkit-box-shadow: 1px 1px 1px #616161;
+}
+
+input[type=range]:focus::-ms-fill-lower {
+    background: #EEEEEE;
+}
+
+input[type=range]:focus::-ms-fill-upper {
+    background: #EEEEEE;
 }
