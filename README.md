@@ -29,11 +29,11 @@ Several details about the simulation:
 
 ## Repo structure
 
-- [images](images) - logo (made by me, amateur logo) and gif from the simulation
+- [images](images) - logo (made by me, amateur "designer") and gif from the simulation
 - [src](src) - the source code of the application
     * [index.html](https://github.com/MTrajK/virus-spreading/tree/master/src/index.html) - a simple HTML page, JS and CSS files are imported and the parameters, notes, and canvases are defined here
     * [css/styles.css](https://github.com/MTrajK/virus-spreading/tree/master/src/css/styles.css) - used to define media queries (for responsiveness), and other very simple CSS rules (for buttons, ranges, and texts)
-    * [js/common.js](https://github.com/MTrajK/virus-spreading/tree/master/src/js/bouncing-balls.js) - all constants used in simulation
+    * [js/common.js](https://github.com/MTrajK/virus-spreading/tree/master/src/js/common.js) - all constants used in simulation
     * [js/vector2d.js](https://github.com/MTrajK/virus-spreading/tree/master/src/js/vector2d.js) - 2 dimensional vector class, all vector related things are located here
     * [js/ball.js](https://github.com/MTrajK/virus-spreading/tree/master/src/js/ball.js) - balls collision and movement logics/physics
     * [js/chart.js](https://github.com/MTrajK/virus-spreading/tree/master/src/js/chart.js) - chart logics and drawings
