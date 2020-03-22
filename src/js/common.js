@@ -96,6 +96,10 @@
             },
             canvasBoundary: blackColor,
         },
+        rates: {
+            infectionRate: 1,
+            deathRate: 0.03
+        },
         sicknessInterval: {
             from: 6 * fps,
             to: 8 * fps

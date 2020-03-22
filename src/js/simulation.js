@@ -175,10 +175,8 @@
         simulationEnd = end;
         simulationParameters = parameters;
 
-        // init static properties for ball class
-        // TODO: Should this be located in common.js????
-        Ball.infectionRate = simulationParameters.infectionRate;
-        Ball.deathRate = simulationParameters.deathRate;
+        Common.rates.infectionRate = simulationParameters.infectionRate;
+        Common.rates.deathRate = simulationParameters.deathRate;
 
         // init chart
         Chart.init(chart, simulationParameters.totalPopulation);

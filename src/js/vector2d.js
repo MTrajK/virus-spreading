@@ -7,11 +7,6 @@
         this.Y = y;
     }
 
-    Vector2D.zero = function() {
-        // static function for a zero vector
-        return new Vector2D(0, 0);
-    }
-
     Vector2D.random = function() {
         // static function for a random vector
         return new Vector2D(Math.random(), Math.random());
@@ -49,11 +44,10 @@
         );
     }
 
-    Vector2D.prototype.tryNormalize = function() {
+    Vector2D.prototype.normalize = function() {
         // convert to unit vector, vector with length of 1 (distance between origin and this vector)
-        // if zero vector, returns zero vector
-        var length = this.length();
-        return length == 0 ? Vector2D.zero() : this.div(length);
+        // NOTE: unsafe normalize (if length is zero)!
+        return this.div(this.length());
     }
 
     Vector2D.prototype.length = function() {
