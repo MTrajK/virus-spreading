@@ -107,15 +107,15 @@
 }
 
 #healthy-number {
-    color: #AAC6CA;
+    color: #AED581;
 }
 
 #sick-number {
-    color: #BB641D;
+    color: #E53935;
 }
 
 #recovered-number {
-    color: #CB8AC0;
+    color: #FF9800;
 }
 
 #dead-number {

@@ -18,12 +18,12 @@
     var borderWidthHalf = borderWidth / 2;
 
     // colors
-    var blackColor = '#000';
-    var lightGrayColor = '#EEE';
-    var healthyColor = '#AAC6CA';
-    var sickColor = '#BB641D';
-    var recoveredColor = '#CB8AC0';
-    var dangerSickColor = 'brown';
+    var blackColor = '#000000';
+    var lightGrayColor = '#EEEEEE';
+    var healthyColor = '#AED581';
+    var sickColor = '#E53935';
+    var recoveredColor = '#FF9800';
+    var dangerSickColor = '#B71C1C';
 
     // export Common
     window.Common = {
