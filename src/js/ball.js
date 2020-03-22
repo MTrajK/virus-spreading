@@ -1,6 +1,11 @@
 (function(){
     'use strict';
 
+    /****************
+     * Ball class, contains all ball related things and
+     * the ball movement and colliding logic.
+    ****************/
+
     /* Helper methods */
 
     function applySpeed(velocity) {

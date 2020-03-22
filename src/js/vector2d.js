@@ -1,6 +1,11 @@
 (function(){
     'use strict';
 
+    /****************
+     * 2 dimensional vector class, contains X and Y coordinates
+     * and several vector operations.
+    ****************/
+
     function Vector2D(x, y) {
         // constructor for 2 dimensional vector
         this.X = x;

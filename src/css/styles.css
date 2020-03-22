@@ -3,7 +3,7 @@
     color: #616161;
 }
 
-@media only screen and (max-width: 480px) {
+@media screen and (max-width: 480px) {
     #chart {
         margin: 30px auto 0;
     }
@@ -52,9 +52,15 @@
         padding-right: 5px;
         padding-left: 0px;
     }
+
+    .notes {
+        font-size: 12px;
+        width: 250px;
+        margin: 30px auto;
+    }
 }
 
-@media only screen and (min-width: 481px) and (max-width: 630px) {
+@media screen and (min-width: 481px) and (max-width: 630px) {
     #chart {
         margin: 35px auto 0;
     }
@@ -103,9 +109,15 @@
         padding-right: 6px;
         padding-left: 1px;
     }
+
+    .notes {
+        font-size: 13px;
+        width: 350px;
+        margin: 35px auto;
+    }
 }
 
-@media only screen and (min-width: 631px) and (max-width: 1500px) {
+@media screen and (min-width: 631px) and (max-width: 1500px) {
     #chart {
         margin: 40px auto 0;
     }
@@ -153,6 +165,12 @@
     #chart-stats > span {
         padding-right: 7px;
         padding-left: 2px;
+    }
+
+    .notes {
+        font-size: 14px;
+        width: 460px;
+        margin: 35px auto;
     }
 }
 
@@ -205,6 +223,12 @@
         padding-right: 8px;
         padding-left: 3px;
     }
+
+    .notes {
+        font-size: 15px;
+        width: 500px;
+        margin: 40px auto;
+    }
 }
 
 #simulation {
@@ -229,6 +253,16 @@
 
 .border-on-right {
     border-right: gray 2px solid;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #0056b3;
+    text-decoration: underline;
 }
 
 #healthy-number {

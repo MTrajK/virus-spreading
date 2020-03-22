@@ -2,7 +2,7 @@
     'use strict';
 
     /****************
-     * All chart logics and drawings are here.
+     * Chart logics and drawings.
      * The chart canvas ratio is always 10:1.
     ****************/
 

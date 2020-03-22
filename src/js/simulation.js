@@ -2,7 +2,7 @@
     'use strict';
 
     /****************
-     * Simulation drawings and logics are here.
+     * Simulation drawings and logics (without ball logics).
      * The simulation canvas ratio is always 3:2.
     ****************/
 
