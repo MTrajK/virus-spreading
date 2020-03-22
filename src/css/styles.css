@@ -5,18 +5,52 @@
 
 @media only screen and (max-width: 480px) {
     #chart {
-        margin: 35px auto 0;
+        margin: 30px auto 0;
     }
 
     #chart-dimensions {
-        width: 150px;
-        height: 15px;
+        width: 250px;
+        height: 25px;
     }
 
     #simulation-dimensions {
         margin: 20px auto 0;
+        width: 300px;
+        height: 200px;
+    }
+
+    input[type=button] {
+        font-size: 13px;
+        height: 33px;
+        line-height: 33px;
+        padding: 0 10px;
+        margin-top: 20px;
+    }
+
+    input[type=range] {
         width: 200px;
-        height: 133px;
+    }
+
+    #parameters {
+        margin: 30px auto 0;
+    }
+
+    #chart-stats {
+        font-size: 11px;
+    }
+
+    .parameters-text {
+        font-size: 13px;
+    }
+
+    .parameters-title {
+        font-size: 17px;
+        margin-bottom: 30px;
+    }
+
+    #chart-stats > span {
+        padding-right: 5px;
+        padding-left: 0px;
     }
 }
 
@@ -35,11 +69,45 @@
         width: 400px;
         height: 266px;
     }
+
+    input[type=button] {
+        font-size: 15px;
+        height: 37px;
+        line-height: 37px;
+        padding: 0 11px;
+        margin-top: 20px;
+    }
+
+    input[type=range] {
+        width: 300px;
+    }
+
+    #parameters {
+        margin: 40px auto 0;
+    }
+
+    #chart-stats {
+        font-size: 12px;
+    }
+
+    .parameters-text {
+        font-size: 15px;
+    }
+
+    .parameters-title {
+        font-size: 18px;
+        margin-bottom: 40px;
+    }
+
+    #chart-stats > span {
+        padding-right: 6px;
+        padding-left: 1px;
+    }
 }
 
 @media only screen and (min-width: 631px) and (max-width: 1500px) {
     #chart {
-        margin: 50px auto 0;
+        margin: 40px auto 0;
     }
 
     #chart-dimensions {
@@ -52,11 +120,45 @@
         width: 600px;
         height: 399px;
     }
+
+    input[type=button] {
+        font-size: 17px;
+        height: 43px;
+        line-height: 43px;
+        padding: 0 13px;
+        margin-top: 25px;
+    }
+
+    input[type=range] {
+        width: 350px;
+    }
+
+    #parameters {
+        margin: 50px auto 0;
+    }
+
+    #chart-stats {
+        font-size: 15px;
+    }
+
+    .parameters-text {
+        font-size: 17px;
+    }
+
+    .parameters-title {
+        font-size: 20px;
+        margin-bottom: 45px;
+    }
+
+    #chart-stats > span {
+        padding-right: 7px;
+        padding-left: 2px;
+    }
 }
 
 @media only screen and (min-width: 1501px) {
     #chart {
-        margin: 75px auto 0;
+        margin: 50px auto 0;
     }
 
     #chart-dimensions {
@@ -69,6 +171,40 @@
         width: 900px;
         height: 600px;
     }
+
+    input[type=button] {
+        font-size: 18px;
+        height: 50px;
+        line-height: 50px;
+        padding: 0 15px;
+        margin-top: 30px;
+    }
+
+    input[type=range] {
+        width: 400px;
+    }
+
+    #parameters {
+        margin: 60px auto 0;
+    }
+
+    #chart-stats {
+        font-size: 16px;
+    }
+
+    .parameters-text {
+        font-size: 18px;
+    }
+
+    .parameters-title {
+        font-size: 22px;
+        margin-bottom: 50px;
+    }
+
+    #chart-stats > span {
+        padding-right: 8px;
+        padding-left: 3px;
+    }
 }
 
 #simulation {
@@ -79,29 +215,20 @@
     text-align: center;
 }
 
-#parameters {
-    margin-top: 100px;
-}
-
 #chart-dimensions {
     display: inline-block;
+}
+
+.number, .parameters-text, .parameters-title {
+    font-weight: bold;
 }
 
 #chart-stats {
     margin-bottom: 5px;
 }
 
-#chart-stats > span {
-    padding: 0px 5px;
-}
-
 .border-on-right {
     border-right: gray 2px solid;
-}
-
-.number {
-    font-size: 15px;
-    font-weight: bold;
 }
 
 #healthy-number {
@@ -132,16 +259,11 @@ input[type=button] {
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
-    font-size: 18px;
     font-weight: bold;
     font-style: normal;
-    height: 50px;
-    line-height: 50px;
     text-decoration: none;
     text-align: center;
     text-shadow: 0px 1px 0px #ffffff;
-    padding: 0 15px;
-    margin-top: 50px;
     outline: none;
 }
 
@@ -158,9 +280,7 @@ input[type=button]:hover {
 /* Taken from here https://www.cssportal.com/style-input-range/ */
 
 input[type=range] {
-    width: 400px;
     height: 38px;
-    margin: 10px 0;
     -webkit-appearance: none;
 }
 

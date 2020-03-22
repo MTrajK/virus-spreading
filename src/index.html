@@ -42,13 +42,28 @@
 
 
     <div id="parameters">
-        <h2>Virus Spreading Simulation</h2></br>
+        <p class="parameters-title">Virus Spreading Simulation</p>
 
-        <div><h3>Population: <span id="population-number">100</span></h3> <input type="range" id="population-slider" name="population" min="50" max="200" step="1" value="100"></div>
-        <div><h3>Sick population: <span id="sick-percent">1</span>%</h3> <input type="range" id="sick-slider" name="sick" min="0" max="100" step="1" value="1"></div>
-        <div><h3>Social distancing: <span id="distancing-percent">0</span>%</h3> <input type="range" id="distancing-slider" name="distancing" min="0" max="100" step="1" value="0"></div>
-        <div><h3>Infection rate: <span id="infection-percent">100</span>%</h3> <input type="range" id="infection-slider" name="infection" min="0" max="100" step="1" value="100"></div>
-        <div><h3>Death rate: <span id="death-percent">3</span>%</h3> <input type="range" id="death-slider" name="death" min="0" max="100" step="1" value="3"></div>
+        <div class="parameters-text">
+            <p>Population: <span id="population-number">125</span></p>
+            <input type="range" id="population-slider" name="population" min="50" max="200" step="1" value="125">
+        </div>
+        <div class="parameters-text">
+            <p>Sick population: <span id="sick-percent">1</span>%</p>
+            <input type="range" id="sick-slider" name="sick" min="0" max="100" step="1" value="1">
+        </div>
+        <div class="parameters-text">
+            <p>Social distancing: <span id="distancing-percent">0</span>%</p>
+            <input type="range" id="distancing-slider" name="distancing" min="0" max="100" step="1" value="0">
+        </div>
+        <div class="parameters-text">
+            <p>Infection rate: <span id="infection-percent">100</span>%</p>
+            <input type="range" id="infection-slider" name="infection" min="0" max="100" step="1" value="100">
+        </div>
+        <div class="parameters-text">
+            <p>Death rate: <span id="death-percent">3</span>%</p>
+            <input type="range" id="death-slider" name="death" min="0" max="100" step="1" value="3">
+        </div>
 
         <input type="button" id="start" value="Start simulation"/>
     </div>
