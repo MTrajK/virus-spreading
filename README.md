@@ -2,9 +2,9 @@
 
 Simple virus spreading simulation inspired by this great [article](https://www.washingtonpost.com/graphics/2020/world/corona-simulator/) (written by Harry Stevens on [WashingtonPost](https://www.washingtonpost.com/)).\
 The goal of this tool is to experiment with several parameters to find the best way to **"flatten the curve"**.\
-The whole simulation is made in plain/vanilla JavaScript and CSS.
+The whole simulation is made with plain/vanilla JavaScript and CSS. But why vanilla JavaScript (without some newer specification like ES6)? Because I wanted to be runnable in older/all browsers without using a JS compiler. Btw I'm not saying to ignore JS frameworks, JS compilers, or ES6 (they are great!), but for this project, I decided not to use something like that.
 
-*Note: This simple simulation isn't a 100% real-world simulation, because there are many more factors in the real world and the people aren't just balls that are bouncing*
+*Note: This is not a mathematical simulation nor a 100% real-world simulation (because there are many more factors in the real world, and the people aren't just balls that are bouncing), but it could show how important the social distancing is and how quickly a virus could spread among the population.*
 
 **[Try it here](https://mtrajk.github.io/virus-spreading/)**
 
@@ -24,12 +24,12 @@ Several details about the simulation:
 - A recovered ball (orange) can't be infected again.
 - A dead ball (black) is a ball that doesn't move and doesn't collide (doesn't exist for the other balls).
 - Healthy, sick and recovered balls could be social distancing balls, which means that the ball doesn't move but the moving balls can collide with it. The number of social distancing balls depends on the "social distancing" parameter.
-- In the chart there is a "safe limit" line (grey), that line is the hospital capacity, in this case, that limit is 30% of the total population (in real-world this percent is much lower).
+- In the chart there is a "safe limit" line (grey), that line is the hospital capacity, in this case, that limit is 30% of the total population (in the real-world this percent is much lower).
 
 
 ## Repo structure
 
-- [images](images) - logo (made by me, amateur "designer") and gif from the simulation
+- [images](images) - logo (made by me, an amateur "designer") and a gif from the simulation
 - [src](src) - the source code of the application
     * [index.html](https://github.com/MTrajK/virus-spreading/tree/master/src/index.html) - a simple HTML page, JS and CSS files are imported and the parameters, notes, and canvases are defined here
     * [css/styles.css](https://github.com/MTrajK/virus-spreading/tree/master/src/css/styles.css) - used to define media queries (for responsiveness), and other very simple CSS rules (for buttons, ranges, and texts)
