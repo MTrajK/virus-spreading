@@ -41,6 +41,21 @@ Several details about the simulation:
     * [js/app.js](https://github.com/MTrajK/virus-spreading/tree/master/src/js/app.js) - the role of this js is to control the whole app/workflow, used to initialize (using the values from the parameters), stop the simulation and all other interaction
 
 
+## Resources
+
+Useful resources about virus spreading (you can find the same resources in the application):
+- [Why outbreaks like coronavirus spread exponentially, and how to “flatten the curve”](https://www.washingtonpost.com/graphics/2020/world/corona-simulator/)
+- [Outbreak](https://meltingasphalt.com/interactive/outbreak/)
+- [What Happens Next?](https://ncase.me/covid-19/)
+- [Epidemic Calculator](http://gabgoh.github.io/COVID/index.html)
+- [Simulating an epidemic](https://www.youtube.com/watch?v=gxAaO2rsdIs)
+- [Epidemic, Endemic, and Eradication Simulations](https://www.youtube.com/watch?v=7OLpKqTriio)
+- [Exponential growth and epidemics](https://www.youtube.com/watch?v=Kas0tIxDvrg)
+- [What This Chart Actually Means for COVID-19](https://www.youtube.com/watch?v=fgBla7RepXU)
+- [The Coronavirus Curve](https://www.youtube.com/watch?v=k6nLfCbAzgo)
+- [How To See Germs Spread Experiment (Coronavirus)](https://www.youtube.com/watch?v=I5-dI74zxPg)
+
+
 ## License
 
 This project is licensed under the MIT - see the [LICENSE](LICENSE) file for details
