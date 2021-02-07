@@ -269,6 +269,10 @@ a:hover {
     color: #AED581;
 }
 
+#vaccinated-number {
+    color: #81D4FA;
+}
+
 #sick-number {
     color: #E53935;
 }

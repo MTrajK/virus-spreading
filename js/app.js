@@ -30,17 +30,25 @@
             document.getElementById('population-slider'),
             document.getElementById('population-number')
         ],
+        vaccinated: [
+            document.getElementById('vaccinated-slider'),
+            document.getElementById('vaccinated-percent')
+        ],
+        efficacy: [
+            document.getElementById('efficacy-slider'),
+            document.getElementById('efficacy-percent')
+        ],
         sick: [
             document.getElementById('sick-slider'),
             document.getElementById('sick-percent')
         ],
-        distancing: [
-            document.getElementById('distancing-slider'),
-            document.getElementById('distancing-percent')
-        ],
         infection: [
             document.getElementById('infection-slider'),
             document.getElementById('infection-percent')
+        ],
+        distancing: [
+            document.getElementById('distancing-slider'),
+            document.getElementById('distancing-percent')
         ],
         death: [
             document.getElementById('death-slider'),
@@ -51,7 +59,8 @@
         healthy: document.getElementById('healthy-number'),
         sick: document.getElementById('sick-number'),
         recovered: document.getElementById('recovered-number'),
-        dead: document.getElementById('dead-number')
+        dead: document.getElementById('dead-number'),
+        vaccinated: document.getElementById('vaccinated-number')
     };
 
     /* Helper functions */
@@ -112,8 +121,10 @@
         // start simulation
         Simulation.init(simulation, chart, simulationStats, simulationEnd, {
             totalPopulation: slidersValues.population,
+            vaccinatedPopulation: parseInt(slidersValues.population * slidersValues.vaccinated / 100),
             sickPopulation: parseInt(slidersValues.population * slidersValues.sick / 100),
             socialDistancingPopulation: parseInt(slidersValues.population * slidersValues.distancing / 100),
+            vaccineEfficacy: slidersValues.efficacy / 100,
             infectionRate: slidersValues.infection / 100,
             deathRate: slidersValues.death / 100
         });

@@ -7,7 +7,7 @@
     ****************/
 
     var chartCanvas, chartDimensions, context, maxValue,
-        currentStep, dangerSick, safeSick, healthy, recovered;
+        currentStep, dangerSick, safeSick, healthy, recovered, dead;
 
     function drawLine(height, from, to) {
         context.beginPath();
@@ -60,6 +60,7 @@
         safeSick = [];
         healthy = [];
         recovered = [];
+        dead = [];
         currentStep = 0;
     }
 
@@ -68,14 +69,17 @@
         var sickValue = maxValue - data.sick;
         var healthyValue = sickValue - data.healthy;
         var recoveredValue = healthyValue - data.recovered;
+        var deadValue = recoveredValue - data.dead;
         sickValue /= maxValue;
         healthyValue /= maxValue;
         recoveredValue /= maxValue;
+        deadValue /= maxValue
 
         dangerSick.push(sickValue);
         safeSick.push(Math.max(sickValue, Common.chartSafeLimit));
         healthy.push(healthyValue);
         recovered.push(recoveredValue);
+        dead.push(deadValue);
     }
 
     function draw() {
@@ -93,8 +97,11 @@
         // draw empty rect (the upcoming time)
         drawRect(Common.colors.chart.empty, currentStepSize, 0, width - currentStepSize, height);
 
-        // draw dead part (a whole rectangle, the elapsed time)
-        drawRect(Common.colors.chart.dead, 0, 0, currentStepSize, height);
+        // draw vaccinated part (a whole rectangle, the elapsed time)
+        drawRect(Common.colors.chart.vaccinated, 0, 0, currentStepSize, height);
+
+        // draw dead part
+        drawPolygon(dead, Common.colors.chart.dead, height, stepSize);
 
         // draw recovered part
         drawPolygon(recovered, Common.colors.chart.recovered, height, stepSize);
