@@ -66,9 +66,16 @@
         balls = [];
         currentFrame = 0;
 
-        // create sick and healthy balls
+        // create vaccinated, sick and healthy balls
+        var vaccinatedAndSick = Math.min(
+            simulationParameters.vaccinatedPopulation + simulationParameters.sickPopulation,
+            simulationParameters.totalPopulation); // in case if more than 100% of the population is vaccinated or sick
         var ballIdx = 0;
-        while (ballIdx < simulationParameters.sickPopulation) {
+        while (ballIdx < simulationParameters.vaccinatedPopulation) {
+            balls.push(new Ball(Common.states.vaccinated));
+            ballIdx++;
+        }
+        while (ballIdx < vaccinatedAndSick) {
             balls.push(new Ball(Common.states.sick));
             ballIdx++;
         }
@@ -132,7 +139,7 @@
                 // check collision and update states, positions & velocities
                 balls[i].ballsCollision(balls[j]);
 
-        var statsData = {sick: 0, healthy: 0, recovered: 0, dead: 0};
+        var statsData = {healthy: 0, sick: 0, vaccinated: 0, recovered: 0, dead: 0};
         for (var i=0; i<balls.length; i++) {
             // count stats
             statsData[balls[i].state]++;
@@ -175,6 +182,7 @@
         simulationEnd = end;
         simulationParameters = parameters;
 
+        Common.rates.vaccineEfficacy = simulationParameters.vaccineEfficacy;
         Common.rates.infectionRate = simulationParameters.infectionRate;
         Common.rates.deathRate = simulationParameters.deathRate;
 

@@ -9,7 +9,7 @@ The whole simulation is made with plain/vanilla JavaScript and CSS. But why vani
 **[Try it here](https://mtrajk.github.io/virus-spreading/)**
 
 <p align="center">
-    <img src="https://raw.githubusercontent.com/MTrajK/virus-spreading/master/images/simulation.gif" width="800px" title="simulation">
+    <img src="https://raw.githubusercontent.com/MTrajK/virus-spreading/master/images/simulation_v2.gif" width="800px" title="simulation">
 </p>
 
 
@@ -23,8 +23,9 @@ Several details about the simulation:
 - A sick ball (red) will be sick between 6 and 8 seconds. After that, it changes the state in recovered or dead (this depends on the "death rate" parameter). The number of sick balls depends on the "sick population" parameter.
 - A recovered ball (orange) can't be infected again.
 - A dead ball (black) is a ball that doesn't move and doesn't collide (doesn't exist for the other balls).
-- Healthy, sick and recovered balls could be social distancing balls, which means that the ball doesn't move but the moving balls can collide with it. The number of social distancing balls depends on the "social distancing" parameter.
+- Healthy, vaccinated, sick and recovered balls could be social distancing balls, which means that the ball doesn't move but the moving balls can collide with it. The number of social distancing balls depends on the "social distancing" parameter.
 - In the chart there is a "safe limit" line (grey), that line is the hospital capacity, in this case, that limit is 30% of the total population (in the real-world this percent is much lower).
+- Two new parameters were added to the original simulation (around 11 months later): "vaccinated" population (blue balls) and "vaccine efficiency". Vaccinated balls are blue. Each vaccinated ball may develop virus immunity, this depends on the "vaccine efficiency" parameter.
 
 
 ## Repo structure
@@ -54,6 +55,7 @@ Useful resources about virus spreading (you can find the same resources in the a
 - [What This Chart Actually Means for COVID-19](https://www.youtube.com/watch?v=fgBla7RepXU)
 - [The Coronavirus Curve](https://www.youtube.com/watch?v=k6nLfCbAzgo)
 - [How To See Germs Spread Experiment (Coronavirus)](https://www.youtube.com/watch?v=I5-dI74zxPg)
+- [Visualizing Herd Immunity (with 500 Mousetraps!)](https://www.youtube.com/watch?v=Et_J8_x4qBs)
 
 
 ## License

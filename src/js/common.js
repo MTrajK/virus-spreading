@@ -21,6 +21,7 @@
     var blackColor = '#000000';
     var lightGrayColor = '#EEEEEE';
     var healthyColor = '#AED581';
+    var vaccinatedColor = '#81D4FA';
     var sickColor = '#E53935';
     var recoveredColor = '#FF9800';
     var dangerSickColor = '#B71C1C';
@@ -29,6 +30,7 @@
     window.Common = {
         states: {
             healthy: 'healthy',
+            vaccinated: 'vaccinated',
             sick: 'sick',
             recovered: 'recovered',
             dead: 'dead'
@@ -81,12 +83,14 @@
             },
             states: {
                 healthy: healthyColor,
+                vaccinated: vaccinatedColor,
                 sick: sickColor,
                 recovered: recoveredColor,
                 dead: blackColor
             },
             chart: {
                 healthy: healthyColor,
+                vaccinated: vaccinatedColor,
                 safeSick: sickColor,
                 dangerSick: dangerSickColor,
                 recovered: recoveredColor,
@@ -97,8 +101,9 @@
             canvasBoundary: blackColor,
         },
         rates: {
-            infectionRate: 1,
-            deathRate: 0.03
+            vaccineEfficacy: undefined,
+            infectionRate: undefined,
+            deathRate: undefined
         },
         sicknessInterval: {
             from: 6 * fps,

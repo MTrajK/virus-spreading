@@ -64,6 +64,7 @@
         this.velocity = applySpeed(Vector2D.random().sub(new Vector2D(0.5, 0.5)));
         this.socialDistancing = false;
         this.sicknessLeft = parseInt(Common.sicknessInterval.from + Math.random() * (Common.sicknessInterval.to - Common.sicknessInterval.from));
+        this.vaccineImmunity = (this.state == Common.states.vaccinated) ? (Math.random() < Common.rates.vaccineEfficacy) : false;
     }
 
     Ball.prototype.ballsCollision = function(ball) {
@@ -86,10 +87,12 @@
                     ellasticCollision(this, ball, positionSub, distance);
             }
 
-            if ((this.state == Common.states.sick || ball.state == Common.states.sick) &&
-                (this.state == Common.states.healthy || ball.state == Common.states.healthy) &&
+            if ((this.state == Common.states.sick || ball.state == Common.states.sick) &&   // one sick
+                (this.state == Common.states.healthy || ball.state == Common.states.healthy ||  // and one healthy or vaccinated (but doesn't develop immunity from the vaccine)
+                    ((this.state == Common.states.vaccinated || ball.state == Common.states.vaccinated) &&
+                    (!this.vaccineImmunity && !ball.vaccineImmunity))) &&
                 (Math.random() < Common.rates.infectionRate))
-                this.state = ball.state = Common.states.sick;   // both will be sick if at least one is infected in the collision
+                    this.state = ball.state = Common.states.sick;
         }
     }
 
